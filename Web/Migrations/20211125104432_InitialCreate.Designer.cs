@@ -9,7 +9,7 @@ using Web.Data;
 
 namespace Web.Migrations
 {
-    [DbContext(typeof(DataContext))]
+    [DbContext(typeof(Data.DataContext))]
     [Migration("20211125104432_InitialCreate")]
     partial class InitialCreate
     {

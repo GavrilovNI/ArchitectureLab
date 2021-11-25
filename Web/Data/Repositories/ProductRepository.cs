@@ -43,7 +43,12 @@ namespace Web.Data.Repositories
 
         public override void Update(Product item)
         {
-            Product toUpdate = DbSet.Find(item.Id);
+            Product? toUpdate = DbSet.Find(item.Id);
+            if(toUpdate == null)
+            {
+                Add(item);
+                return;
+            }
             toUpdate.Name = item.Name;
             toUpdate.Price = item.Price;
             toUpdate.Description = item.Description;

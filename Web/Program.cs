@@ -7,11 +7,11 @@ namespace Web
 {
     public class Program
     {
-        public static DataContext context;
+        //public static DbContext context;
 
         public static void Main(string[] args)
         {
-            context = new DataContext();
+            //context = new DbContext();
             CreateHostBuilder(args).Build().Run();
         }
 

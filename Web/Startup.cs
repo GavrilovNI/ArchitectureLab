@@ -1,5 +1,6 @@
-﻿using Web.Data.Interfaces;
-using Web.Data.Mocs;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Sqlite;
+using Web.Data;
 
 namespace Web
 {
@@ -9,8 +10,7 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IAllCars, MockCars>();
-            services.AddTransient<ICarsCategory, MocksCategory>();
+            services.AddDbContext<DataContext>();
             //services.AddMvc();
             services.AddRazorPages();
         }
@@ -18,6 +18,11 @@ namespace Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using (var client = new DataContext())
+            {
+                client.Database.EnsureCreated();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -37,7 +42,6 @@ namespace Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
-                endpoints.MapControllerRoute("Test", "{controller=Cars}/{action=Test}/{id:int}");
             });
         }
     }
