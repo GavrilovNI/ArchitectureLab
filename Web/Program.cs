@@ -1,13 +1,17 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
+using Web.Data;
 
 namespace Web
 {
     public class Program
     {
+        public static DataContext context;
+
         public static void Main(string[] args)
         {
+            context = new DataContext();
             CreateHostBuilder(args).Build().Run();
         }
 

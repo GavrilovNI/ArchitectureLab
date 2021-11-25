@@ -6,7 +6,7 @@ namespace Arhitecture.Data.Repositories
     {
         public CatalogRepository(DataContext context) : base(context)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

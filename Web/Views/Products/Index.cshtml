@@ -1,0 +1,11 @@
+﻿@using Web.Data.Models
+@model IEnumerable<Product>
+
+
+<div class="row mt-5 mb-2">
+	@{
+		foreach(Product product in Model) {
+			@Html.Partial("Product", product)
+		}
+	}
+</div>

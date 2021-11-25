@@ -15,7 +15,7 @@ namespace Web.Controllers
             _carsCategory = carsCategory;
         }
 
-        [Route("")]
+        
         [Route("Cars/List")]
         public ViewResult List()
         {
