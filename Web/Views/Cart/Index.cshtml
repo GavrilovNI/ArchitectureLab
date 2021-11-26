@@ -1,0 +1,10 @@
+﻿@using Web.Data.Models
+@model IEnumerable<CartItemInfo>
+
+<div class="row mt-5 mb-2">
+	@{
+		foreach(CartItemInfo cartItemInfo in Model) {
+			@Html.Partial("_CartItemPartial", cartItemInfo)
+		}
+	}
+</div>

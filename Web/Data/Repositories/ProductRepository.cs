@@ -3,37 +3,37 @@ using Web.Data.Models;
 
 namespace Web.Data.Repositories
 {
-    public class ProductRepository : DefaultRepository<Product>
+    public class ProductRepository : Repository
     {
         public ProductRepository(DataContext context) : base(context)
         {
 
         }
 
-        protected override DbSet<Product> DbSet => Context.Products;
+        protected DbSet<Product> DbSet => Context.Products;
 
-        public override void Add(Product item)
+        public void Add(Product item)
         {
             DbSet.Add(item);
             Context.SaveChanges();
         }
 
-        public override Product? Get(long id)
+        public Product? Get(long id)
         {
             return DbSet.Find(id);
         }
 
-        public override Dictionary<long, Product> GetAllAsDictionary()
+        public Dictionary<long, Product> GetAllAsDictionary()
         {
             return DbSet.ToDictionary(c => c.Id);
         }
 
-        public override List<Product> GetAllAsList()
+        public List<Product> GetAllAsList()
         {
             return DbSet.ToList();
         }
 
-        public override void Remove(long id)
+        public void Remove(long id)
         {
             Product? product = Get(id);
             if (product != null)
@@ -41,7 +41,7 @@ namespace Web.Data.Repositories
             Context.SaveChanges();
         }
 
-        public override void Update(Product item)
+        public void Update(Product item)
         {
             Product? toUpdate = DbSet.Find(item.Id);
             if(toUpdate == null)
