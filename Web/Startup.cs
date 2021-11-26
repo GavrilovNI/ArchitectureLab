@@ -10,7 +10,7 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>();
+            //services.AddDbContext<DataContext>();
             //services.AddMvc();
             services.AddRazorPages();
         }
@@ -18,10 +18,10 @@ namespace Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            using (var client = new DataContext())
+            /*using (var client = new DataContext())
             {
                 client.Database.EnsureCreated();
-            }
+            }*/
 
             if (env.IsDevelopment())
             {
@@ -39,9 +39,13 @@ namespace Web
             app.UseStaticFiles();
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
+                endpoints.MapRazorPages();
             });
         }
     }

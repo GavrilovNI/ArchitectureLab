@@ -7,7 +7,12 @@ namespace Web.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly DataContext _dataContext = new DataContext();
+        private readonly DataContext _dataContext;
+
+        public ProductsController(DataContext dataContext)
+        {
+            _dataContext = dataContext;
+        }
 
         public IActionResult Index()
         {
@@ -18,6 +23,7 @@ namespace Web.Controllers
 
 
 
+            //return View();
             return View(products);
         }
 
