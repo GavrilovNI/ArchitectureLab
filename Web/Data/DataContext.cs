@@ -14,12 +14,6 @@ namespace Web.Data
             string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = Directory.GetParent(workingDirectory).FullName;
             DbPath = projectDirectory + "\\Database\\TogetherСheaper.db";
-
-
-
-            //var folder = Environment.SpecialFolder.LocalApplicationData;
-            //var path = Environment.GetFolderPath(folder);
-            //DbPath = $"{path}{System.IO.Path.DirectorySeparatorChar}TogetherСheaper.db";
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
