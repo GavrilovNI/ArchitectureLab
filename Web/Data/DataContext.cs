@@ -1,22 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Web.Data.Models;
+using Web.Areas.Identity.Data;
 
 namespace Web.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User>
     {
         public DbSet<Product> Products { get; set; }
 
-        public string DbPath { get; private set; }
+        //public string DbPath { get; private set; }
 
-        public DataContext()
+        public DataContext(DbContextOptions<DataContext> options)
+            : base(options)
         {
-            string workingDirectory = Environment.CurrentDirectory;
-            string projectDirectory = Directory.GetParent(workingDirectory).FullName;
-            DbPath = projectDirectory + "\\Database\\TogetherСheaper.db";
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite($"Data Source={DbPath}");
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
     }
 }
