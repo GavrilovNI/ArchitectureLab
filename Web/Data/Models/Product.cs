@@ -23,7 +23,7 @@ namespace Web.Data.Models
 
         public string LinkToImage { get; set; }
 
-        public Product(string name, int price, string description, int avaliableAmount, string linkToImage)
+        public Product(string name, float price, string description, int avaliableAmount, string linkToImage)
         {
             Name = name;
             Price = price;

@@ -13,7 +13,7 @@ namespace Web.Data
         {
             string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = Directory.GetParent(workingDirectory).FullName;
-            DbPath = projectDirectory + "\\db\\TogetherСheaper.db";
+            DbPath = projectDirectory + "\\Database\\TogetherСheaper.db";
 
 
 
