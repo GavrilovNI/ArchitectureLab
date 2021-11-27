@@ -1,4 +1,5 @@
-﻿@using Web.Data.Models
+﻿@using System.Globalization
+@using Web.Data.Models
 @model Product
 
 
@@ -10,7 +11,7 @@
 		<h2>@Model.Name</h2>
 		<p>@Model.Description</p>
 		<p>Left @Model.AvaliableAmount</p>
-		<p>Price: @Model.Price.ToString("c")</p>
+		<p>Price: @Model.Price.ToString("c", CultureInfo.CreateSpecificCulture("ru-RU"))</p>
 		<a id="addItem" class="nav-link px-2 text-dark" asp-controller="Cart" asp-action="AddItem" asp-route-itemid="@Model.Id">Add</a>
 		<a id="removeItem" class="nav-link px-2 text-dark" asp-controller="Cart" asp-action="RemoveItem" asp-route-itemid="@Model.Id">Remove</a>
 
