@@ -23,14 +23,9 @@ namespace Web.Data.Repositories
             return DbSet.Find(id);
         }
 
-        public Dictionary<long, Product> GetAllAsDictionary()
+        public IQueryable<Product> GetAll()
         {
-            return DbSet.ToDictionary(c => c.Id);
-        }
-
-        public List<Product> GetAllAsList()
-        {
-            return DbSet.ToList();
+            return DbSet.AsQueryable();
         }
 
         public void Remove(long id)
@@ -38,22 +33,6 @@ namespace Web.Data.Repositories
             Product? product = Get(id);
             if (product != null)
                 DbSet.Remove(product);
-            Context.SaveChanges();
-        }
-
-        public void Update(Product item)
-        {
-            Product? toUpdate = DbSet.Find(item.Id);
-            if(toUpdate == null)
-            {
-                Add(item);
-                return;
-            }
-            toUpdate.Name = item.Name;
-            toUpdate.Price = item.Price;
-            toUpdate.Description = item.Description;
-            toUpdate.AvaliableAmount = item.AvaliableAmount;
-            toUpdate.LinkToImage = item.LinkToImage;
             Context.SaveChanges();
         }
     }

@@ -20,11 +20,11 @@ namespace Web.Data.Models
             Count = count;
         }
 
-        public CartDbRow(string userId, CartItem cartItem)
+        public CartDbRow(string userId, long itemId, int count = 1)
         {
             UserId = userId;
-            ItemId = cartItem.ItemId;
-            Count = cartItem.Count;
+            ItemId = itemId;
+            Count = count;
         }
     }
 }

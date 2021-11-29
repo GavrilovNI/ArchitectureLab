@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Web.Data;
 using Web.Data.Models;
 using Web.Data.Repositories;
@@ -16,15 +18,21 @@ namespace Web.Controllers
 
         public IActionResult Index()
         {
+            IQueryable<Product> products = new ProductRepository(_dataContext).GetAll().OrderBy(x => x.Name);
+            List<ProductInfo> model;
 
-            List<Product> products = new ProductRepository(_dataContext).GetAllAsList();
-            //products.Add(new Product("Nvidia RTX 3070", 100500, "It's heater", 2, "/img/rtx3070.png"));
-            //products.Add(new Product("Watermelon", 47, "Nam, Nam", 4519, "/img/watermelon.png"));
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                Cart cart = new Cart(_dataContext, userId);
+                model = products.Select(x => new ProductInfo(x, cart.GetItem(x.Id).Count)).ToList();
+            }
+            else
+            {
+                model = products.Select(x => new ProductInfo(x, 0)).ToList();
+            }
 
-
-
-            //return View();
-            return View(products);
+            return View(model);
         }
 
 

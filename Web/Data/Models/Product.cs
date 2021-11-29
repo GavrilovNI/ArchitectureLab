@@ -7,7 +7,7 @@ namespace Web.Data.Models
     {
         [Key]
         [Required]
-        public long Id { get; set; }
+        public long Id { get; private set; }
 
         [Required]
         public string Name { get; set; }
@@ -30,6 +30,15 @@ namespace Web.Data.Models
             Description = description;
             AvaliableAmount = avaliableAmount;
             LinkToImage = linkToImage;
+        }
+
+        public void Update(Product product)
+        {
+            Name = product.Name;
+            Price = product.Price;
+            Description = product.Description;
+            AvaliableAmount = product.AvaliableAmount;
+            LinkToImage = product.LinkToImage;
         }
     }
 }

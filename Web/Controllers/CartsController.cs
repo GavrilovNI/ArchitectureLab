@@ -6,6 +6,7 @@ using Web.Areas.Identity.Data;
 using Web.Data;
 using Web.Data.Models;
 using Web.Data.Repositories;
+using System.Linq;
 
 namespace Web.Controllers
 {
@@ -22,41 +23,51 @@ namespace Web.Controllers
             _dataContext = dataContext;
             _userManager = userManager;
         }
-
         public IActionResult Index()
         {
-            Cart cart = new CartRepository(_dataContext).Get(UserId);
-            IEnumerable<CartItemInfo> model;
-            if(cart == null)
-                model = new List<CartItemInfo>();
-            else
-                model = cart.CartItems.Select(x => new CartItemInfo(x, new ProductRepository(_dataContext))).ToList();
+            IQueryable<CartItem> items = new Cart(_dataContext, UserId).GetAll();
+            ProductRepository productRepository = new ProductRepository(_dataContext);
+            List<ProductInfo> model = items.Select(x => new ProductInfo(productRepository, x)).ToList();
 
             return View(model);
         }
 
-        public IActionResult AddItem(int itemId, int count)
+        public IActionResult SetItemCount(long itemId, int count)
         {
-            if (count <= 0)
-                count = 1;
+            Product? product = new ProductRepository(_dataContext).Get(itemId);
+            CartItem cartItem = new Cart(_dataContext, UserId).GetItem(itemId);
 
-            // TODO: check itemId
+            if (product == null)
+            {
+                cartItem.Count = 0;
+                return RedirectToAction("Index", "Error", "product not found");
+            }
 
-            new CartRepository(_dataContext).AddOrIncrease(UserId, new CartItem(itemId, count));
+            if (count < 0)
+                return RedirectToAction("Index", "Error", "count to can't be less than 0");
+            
+
+            if (product.AvaliableAmount < cartItem.Count + count)
+            {
+                cartItem.Count = product.AvaliableAmount;
+                return RedirectToAction("Index", "Error", "avaliableAmount is less than you want to add, count setted to avaliableAmount");
+            }
+
+            cartItem.Count = count;
 
             return RedirectToAction("Index");
         }
 
-        public IActionResult RemoveItem(int itemId, int count)
+        public IActionResult AddItem(long itemId, int count)
         {
-            if (count <= 0)
-                count = 1;
+            CartItem cartItem = new Cart(_dataContext, UserId).GetItem(itemId);
+            return SetItemCount(itemId, cartItem.Count + count);
+        }
 
-            // TODO: check itemId
-
-            new CartRepository(_dataContext).DecreaseOrRemove(UserId, new CartItem(itemId, count));
-
-            return RedirectToAction("Index");
+        public IActionResult RemoveItem(long itemId, int count)
+        {
+            CartItem cartItem = new Cart(_dataContext, UserId).GetItem(itemId);
+            return SetItemCount(itemId, cartItem.Count - count);
         }
     }
 }
