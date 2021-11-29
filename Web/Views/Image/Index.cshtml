@@ -1,0 +1,10 @@
+﻿@model IEnumerable<string>
+
+
+<div class="row mt-5 mb-2">
+	@{
+		foreach(string imagePath in Model) {
+			@Html.Partial("_ImagePartial", imagePath)
+		}
+	}
+</div>

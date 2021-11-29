@@ -7,11 +7,11 @@ using Web.Data.Repositories;
 
 namespace Web.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductController : Controller
     {
         private readonly DataContext _dataContext;
 
-        public ProductsController(DataContext dataContext)
+        public ProductController(DataContext dataContext)
         {
             _dataContext = dataContext;
         }
@@ -35,6 +35,35 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult Edit(long productId)
+        {
+            Product? product = new ProductRepository(_dataContext).Get(productId);
+            if(product == null)
+                return RedirectToAction("Index", "Error", "product not found");
+            return View(product);
+        }
 
+        [HttpPost]
+        public IActionResult Edit(Product product)
+        {
+            new ProductRepository(_dataContext).Get(product.Id).Update(product);
+            _dataContext.SaveChanges();
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Product product)
+        {
+            new ProductRepository(_dataContext).Add(product);
+            return View();
+        }
     }
 }
+
