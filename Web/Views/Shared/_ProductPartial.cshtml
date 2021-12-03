@@ -3,8 +3,65 @@
 @model ProductInfo
 
 
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<style>
+	.col-lg-4 p, h2, img, a, button {text-align: center;}
+	.col-lg-4 img { width: 250px; height: 250px; object-fit: cover; margin-top: 5px;  margin-left: auto;
+  margin-right: auto; display: block;}
+	.col-lg-4 {
+		width: 49%;
+		margin: 5px auto;
+		border-width: 1px;
+		border-color: rgb(190,190,190);
+		border-style: solid;
+		border-radius: 25px;
+		}
+	.col-lg-4 .button-class {
+		text-align: center;
+	}
+	
+	.col-lg-4 button {
+	  background-color: #FFFFFF;
+	  border: 1px solid #222222;
+	  border-radius: 8px;
+	  box-sizing: border-box;
+	  color: #222222;
+	  cursor: pointer;
+	  display: inline-block;
+	  font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+	  font-size: 16px;
+	  font-weight: 600;
+	  line-height: 20px;
+	  margin: 0;
+	  outline: none;
+	  padding: 13px 23px;
+	  position: relative;
+	  text-align: center;
+	  text-decoration: none;
+	  touch-action: manipulation;
+	  transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
+	  user-select: none;
+	  -webkit-user-select: none;
+	  width: auto;
+	}
 
+	.col-lg-4 button:focus-visible {
+	  box-shadow: #222222 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
+	  transition: box-shadow .2s;
+	}
+
+	.col-lg-4 button:active {
+	  background-color: #F7F7F7;
+	  border-color: #000000;
+	  transform: scale(.96);
+	}
+
+	.col-lg-4 button:disabled {
+	  border-color: #DDDDDD;
+	  color: #DDDDDD;
+	  cursor: not-allowed;
+	  opacity: 1;
+	}
+</style>
 <div class="col-lg-4">
 	@{
 		if(@Model == null || @Model.Product == null) {
@@ -15,10 +72,14 @@
 			<img class="img-thumbnail" src="@Model.Product.LinkToImage" alt="@Model.Product.Name" />
 			<h2>@Model.Product.Name</h2>
 			<p>@Model.Product.Description</p>
-			<p>Left @Model.Product.AvaliableAmount</p>
+			<p>Left: @Model.Product.AvaliableAmount</p>
 			<p>Price: @Model.Product.Price.ToString("c", CultureInfo.CreateSpecificCulture("ru-RU"))</p>
-			<a id="addItem" class="nav-link px-2 text-dark" asp-controller="Cart" asp-action="AddItem" asp-route-itemid="@Model.Product.Id" asp-route-count=1>Add</a>
-			<a id="removeItem" class="nav-link px-2 text-dark" asp-controller="Cart" asp-action="RemoveItem" asp-route-itemid="@Model.Product.Id" asp-route-count=1>Remove</a>
+			<div class="button-class">
+				<button class="add-button">Add</button>
+				<button class="remove-button">Remove</button>
+			</div>
+			//<a id="addItem" class="nav-link px-2 text-dark" asp-controller="Cart" asp-action="AddItem" asp-route-itemid="@Model.Product.Id" asp-route-count=1>Add</a>
+			//<a id="removeItem" class="nav-link px-2 text-dark" asp-controller="Cart" asp-action="RemoveItem" asp-route-itemid="@Model.Product.Id" asp-route-count=1>Remove</a>
 			<h6>Count in cart: @Model.CountInCart</h6>
 		}
 	}
