@@ -15,7 +15,6 @@ namespace Web.Controllers
     {
         private readonly DataContext _dataContext;
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
         private string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
