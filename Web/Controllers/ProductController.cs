@@ -7,7 +7,7 @@ using Web.Data.Repositories;
 
 namespace Web.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : AdvancedController
     {
         private readonly DataContext _dataContext;
 
@@ -39,8 +39,8 @@ namespace Web.Controllers
         public IActionResult Edit(long productId)
         {
             Product? product = new ProductRepository(_dataContext).Get(productId);
-            if(product == null)
-                return RedirectToAction("Index", "Error", "product not found");
+            if (product == null)
+                return Error(400, "product not found");
             return View(product);
         }
 

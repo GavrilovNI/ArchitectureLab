@@ -3,7 +3,7 @@ using Web.Data.Models;
 
 namespace Web.Controllers
 {
-    public class ImageController : Controller
+    public class ImageController : AdvancedController
     {
         public IActionResult Index()
         {

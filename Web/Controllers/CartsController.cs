@@ -11,7 +11,7 @@ using System.Linq;
 namespace Web.Controllers
 {
     [Authorize]
-    public class CartController : Controller
+    public class CartController : AdvancedController
     {
         private readonly DataContext _dataContext;
         private readonly UserManager<User> _userManager;
@@ -40,17 +40,17 @@ namespace Web.Controllers
             if (product == null)
             {
                 cartItem.Count = 0;
-                return RedirectToAction("Index", "Error", "product not found");
+                return Error(400, "product not found");
             }
 
             if (count < 0)
-                return RedirectToAction("Index", "Error", "count to can't be less than 0");
+                return Error(400, "count to can't be less than 0");
             
 
             if (product.AvaliableAmount < cartItem.Count + count)
             {
                 cartItem.Count = product.AvaliableAmount;
-                return RedirectToAction("Index", "Error", "avaliableAmount is less than you want to add, count setted to avaliableAmount");
+                return Error(400, "avaliableAmount is less than you want to add, count setted to avaliableAmount");
             }
 
             cartItem.Count = count;

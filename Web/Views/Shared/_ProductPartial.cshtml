@@ -41,11 +41,32 @@
 			<p>Left: @Model.Product.AvaliableAmount</p>
 			<p>Price: @Model.Product.Price.ToString("c", CultureInfo.CreateSpecificCulture("ru-RU"))</p>
 			<div class="button-class">
-				<a id="addItem" class="nav-link px-2 text-dark" asp-controller="Cart" asp-action="AddItem" asp-route-itemid="@Model.Product.Id" asp-route-count=1>Add</a>
+				<button type="button" id="addItem" onclick="AddItem(@Model.Product.Id)">Add</button>
 				<a id="removeItem" class="nav-link px-2 text-dark" asp-controller="Cart" asp-action="RemoveItem" asp-route-itemid="@Model.Product.Id" asp-route-count=1>Remove</a>
 			</div>
 			<h6>Count in cart: @Model.CountInCart</h6>
+
 		}
 	}
 
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+<script>
+
+function AddItem(itemId) {
+    $.ajax({
+        type: "GET",
+        url: "/Cart/AddItem",       
+		data: { 'itemId': itemId, 'count': 1 },
+        async: true,
+        success: function (html) {
+            ServiceSucceeded(html);
+        },
+        error: function (jqXHR, exception) {
+			alert('error: ' + jqXHR.status + ' : ' + exception + ' : ' + jqXHR.responseText);
+			//https://stackoverflow.com/questions/6792878/jquery-ajax-error-function
+		}
+    });
+}
+</script>
