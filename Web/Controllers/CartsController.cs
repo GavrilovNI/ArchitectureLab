@@ -15,7 +15,8 @@ namespace Web.Controllers
     {
         private readonly DataContext _dataContext;
         private readonly UserManager<User> _userManager;
-        
+        private readonly RoleManager<IdentityRole> _roleManager;
+
         private string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         public CartController(DataContext dataContext, UserManager<User> userManager)
@@ -23,7 +24,7 @@ namespace Web.Controllers
             _dataContext = dataContext;
             _userManager = userManager;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             IQueryable<CartItem> items = new Cart(_dataContext, UserId).GetAll();
             ProductRepository productRepository = new ProductRepository(_dataContext);

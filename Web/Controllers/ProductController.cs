@@ -35,15 +35,17 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IActionResult Edit(long productId)
+        public IActionResult Edit(long itemId)
         {
-            Product? product = new ProductRepository(_dataContext).Get(productId);
+            Product? product = new ProductRepository(_dataContext).Get(itemId);
             if (product == null)
                 return Error(400, "product not found");
             return View(product);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Edit(Product product)
         {
@@ -52,12 +54,14 @@ namespace Web.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Create(Product product)
         {
