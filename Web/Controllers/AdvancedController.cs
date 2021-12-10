@@ -6,7 +6,7 @@ namespace Web.Controllers
     {
         public IActionResult Error(int code, string message)
         {
-            return RedirectToAction("Index", "Error", new { code = code, message = "product not found" } );
+            return RedirectToAction("Index", "Error", new { code = code, message = message } );
         }
     }
 }

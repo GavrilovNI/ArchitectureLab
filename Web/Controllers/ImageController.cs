@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Web.Data.Models;
 
 namespace Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ImageController : AdvancedController
     {
         public IActionResult Index()

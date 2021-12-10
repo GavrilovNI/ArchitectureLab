@@ -44,13 +44,13 @@ namespace Web.Controllers
             }
 
             if (count < 0)
-                return Error(400, "count to can't be less than 0");
+                return Error(400, "count can't be less than 0");
             
 
-            if (product.AvaliableAmount < cartItem.Count + count)
+            if (count > product.AvaliableAmount)
             {
                 cartItem.Count = product.AvaliableAmount;
-                return Error(400, "avaliableAmount is less than you want to add, count setted to avaliableAmount");
+                return Error(400, "not enough products");
             }
 
             cartItem.Count = count;
