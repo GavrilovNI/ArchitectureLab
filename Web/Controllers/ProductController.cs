@@ -20,12 +20,16 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index([FromQuery] ProductSorter sorter, [FromQuery] ProductFilter filter, [FromQuery] PageSelector<Product> pageSelector)
+        public IActionResult Index([FromQuery] ProductSorter sorter,
+                                   [FromQuery] ProductFilter filter,
+                                   [FromQuery] PageSelector<Product> pageSelector,
+                                   [FromQuery] ProductSearcher searcher)
         {
             IQueryable<Product> products = new ProductRepository(_dataContext).GetAll();
             products = filter.Apply(products);
             products = sorter.Apply(products);
             products = pageSelector.Apply(products);
+            products = searcher.Apply(products);
 
             List<ProductInfo> model;
 
