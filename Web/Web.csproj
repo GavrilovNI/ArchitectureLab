@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Interfaces\" />
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\img\uploaded\" />
     <Folder Include="wwwroot\js\" />

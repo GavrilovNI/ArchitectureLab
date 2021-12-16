@@ -14,14 +14,12 @@ namespace Web.Controllers
     public class CartController : AdvancedController
     {
         private readonly DataContext _dataContext;
-        private readonly UserManager<User> _userManager;
 
         private string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        public CartController(DataContext dataContext, UserManager<User> userManager)
+        public CartController(DataContext dataContext)
         {
             _dataContext = dataContext;
-            _userManager = userManager;
         }
         public async Task<IActionResult> Index()
         {
@@ -68,6 +66,19 @@ namespace Web.Controllers
         {
             CartItem cartItem = new Cart(_dataContext, UserId).GetItem(itemId);
             return SetItemCount(itemId, cartItem.Count - count);
+        }
+
+        public IActionResult Apply()
+        {
+            Cart cart = new Cart(_dataContext, UserId);
+            if (cart.CanBeApplied() == false)
+            {
+                cart.Fix();
+                return Error(401, "cart is wrong");
+            }
+
+            cart.Apply();
+            return RedirectToAction("Index", "Order");
         }
     }
 }
