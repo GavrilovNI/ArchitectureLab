@@ -72,9 +72,12 @@ namespace Web.Data.Models
             ProductRepository productRepository = new ProductRepository(Context);
             foreach (CartItem cartItem in GetAll().ToList())
             {
-                float price = productRepository.Get(cartItem.ItemId).Price;
+                Product product = productRepository.Get(cartItem.ItemId)!;
+                float price = product.Price;
                 BoughtProduct boughtProduct = new BoughtProduct(cartItem, price);
                 boughtProductRepository.Add(boughtProduct);
+                product.AvaliableAmount -= boughtProduct.Count;
+                productRepository.Update(product);
             }
             Clear();
         }
