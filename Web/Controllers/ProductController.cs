@@ -11,6 +11,7 @@ namespace Web.Controllers
 {
     public class ProductController : AdvancedController
     {
+        private const int PAGE_SIZE = 10;
         private readonly DataContext _dataContext;
 
         public ProductController(DataContext dataContext)
@@ -19,11 +20,12 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index([FromQuery] ProductSorter sorter, [FromQuery] ProductFilter filter)
+        public IActionResult Index([FromQuery] ProductSorter sorter, [FromQuery] ProductFilter filter, [FromQuery] PageSelector pageSelector)
         {
             IQueryable<Product> products = new ProductRepository(_dataContext).GetAll();
             products = filter.Apply(products);
             products = sorter.Apply(products);
+            products = pageSelector.Apply(products);
 
             List<ProductInfo> model;
 
