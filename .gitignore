@@ -133,6 +133,3 @@ $RECYCLE.BIN/
 _NCrunch*
 
 .vs/
-Web/Migrations/
-/Database/*.db-shm
-/Database/*.db-wal
