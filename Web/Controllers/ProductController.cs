@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using Web.Data;
+using Web.Data.Enum;
 using Web.Data.Models;
 using Web.Data.Repositories;
 
@@ -16,9 +18,12 @@ namespace Web.Controllers
             _dataContext = dataContext;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string sortingKey)
         {
-            IQueryable<Product> products = new ProductRepository(_dataContext).GetAll().OrderBy(x => x.Name);
+            string defaultSortingKey = "name";
+            var sortingKeySelector = ProductSorter.GetKeySelector(sortingKey) ?? ProductSorter.GetKeySelector(defaultSortingKey);
+
+            IQueryable<Product> products = new ProductRepository(_dataContext).GetAll().OrderBy(sortingKeySelector!);
             List<ProductInfo> model;
 
             if (User.Identity != null && User.Identity.IsAuthenticated)
