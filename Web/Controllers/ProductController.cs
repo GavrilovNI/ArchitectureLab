@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using System.Security.Claims;
 using Web.Data;
-using Web.Data.Enum;
 using Web.Data.Models;
 using Web.Data.Repositories;
+using Web.Data.Utils;
 
 namespace Web.Controllers
 {
@@ -18,12 +18,17 @@ namespace Web.Controllers
             _dataContext = dataContext;
         }
 
-        public IActionResult Index(string sortingKey)
+        [HttpGet]
+        public IActionResult Index(string sortingKey, [FromQuery] ProductFilter filter)
         {
             string defaultSortingKey = "name";
-            var sortingKeySelector = ProductSorter.GetKeySelector(sortingKey) ?? ProductSorter.GetKeySelector(defaultSortingKey);
+            var sortingKeySelector = ProductSorter.GetKeySelector("") ?? ProductSorter.GetKeySelector(defaultSortingKey);
 
-            IQueryable<Product> products = new ProductRepository(_dataContext).GetAll().OrderBy(sortingKeySelector!);
+
+            IQueryable<Product> products = new ProductRepository(_dataContext).GetAll();
+            products = filter.Apply(products);
+            products = products.OrderBy(sortingKeySelector!);
+
             List<ProductInfo> model;
 
             if (User.Identity != null && User.Identity.IsAuthenticated)
