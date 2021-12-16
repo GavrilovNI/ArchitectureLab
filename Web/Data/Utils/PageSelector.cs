@@ -2,13 +2,13 @@
 
 namespace Web.Data.Utils
 {
-    public class PageSelector
+    public class PageSelector<T>
     {
         public int PageSize { get; set; } = 10;
         public int? Page { get; set; } = null;
 
 
-        public IQueryable<Product> Apply(IQueryable<Product> products)
+        public IQueryable<T> Apply(IQueryable<T> products)
         {
             if(Page == null)
                 return products;
