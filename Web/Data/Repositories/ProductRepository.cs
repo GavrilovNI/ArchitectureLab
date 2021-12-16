@@ -35,5 +35,11 @@ namespace Web.Data.Repositories
                 DbSet.Remove(product);
             Context.SaveChanges();
         }
+
+        public void Update(Product product)
+        {
+            DbSet.Update(product);
+            Context.SaveChanges();
+        }
     }
 }

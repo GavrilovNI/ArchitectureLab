@@ -61,8 +61,7 @@ namespace Web.Controllers
         [HttpPost]
         public IActionResult Edit(Product product)
         {
-            new ProductRepository(_dataContext).Get(product.Id).Update(product);
-            _dataContext.SaveChanges();
+            new ProductRepository(_dataContext).Update(product);
             return View();
         }
 

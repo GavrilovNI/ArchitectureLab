@@ -31,14 +31,5 @@ namespace Web.Data.Models
             AvaliableAmount = avaliableAmount;
             LinkToImage = linkToImage;
         }
-
-        public void Update(Product product)
-        {
-            Name = product.Name;
-            Price = product.Price;
-            Description = product.Description;
-            AvaliableAmount = product.AvaliableAmount;
-            LinkToImage = product.LinkToImage;
-        }
     }
 }
