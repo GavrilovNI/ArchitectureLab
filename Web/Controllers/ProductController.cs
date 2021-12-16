@@ -19,15 +19,11 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string sortingKey, [FromQuery] ProductFilter filter)
+        public IActionResult Index([FromQuery] ProductSorter sorter, [FromQuery] ProductFilter filter)
         {
-            string defaultSortingKey = "name";
-            var sortingKeySelector = ProductSorter.GetKeySelector("") ?? ProductSorter.GetKeySelector(defaultSortingKey);
-
-
             IQueryable<Product> products = new ProductRepository(_dataContext).GetAll();
             products = filter.Apply(products);
-            products = products.OrderBy(sortingKeySelector!);
+            products = sorter.Apply(products);
 
             List<ProductInfo> model;
 

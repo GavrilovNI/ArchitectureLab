@@ -7,6 +7,24 @@ namespace Web.Data.Utils
 
     public class ProductSorter
     {
+        public const string DEFAULT_SORTING_KEY = "name";
+        public string? SortingKey { get; set; } = null;
+
+        public ProductSorter()
+        {
+        }
+
+        public IQueryable<Product> Apply(IQueryable<Product> products)
+        {
+            string key = SortingKey ?? DEFAULT_SORTING_KEY;
+            if (_keySelectors.ContainsKey(key) == false)
+                key = DEFAULT_SORTING_KEY;
+            KeySelector? keySelector = GetKeySelector(key);
+            if (keySelector != null)
+                products = products.OrderBy(keySelector);
+            return products;
+        }
+
 
         private static Dictionary<string, KeySelector> _keySelectors = new Dictionary<string, KeySelector>();
 
