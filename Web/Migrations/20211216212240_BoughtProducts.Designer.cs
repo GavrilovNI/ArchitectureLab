@@ -11,7 +11,7 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211216211355_BoughtProducts")]
+    [Migration("20211216212240_BoughtProducts")]
     partial class BoughtProducts
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
