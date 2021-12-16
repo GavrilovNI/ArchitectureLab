@@ -9,8 +9,7 @@ namespace Web.Data
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<CartDbRow> Carts { get; set; }
-
-        //public string DbPath { get; private set; }
+        public DbSet<BoughtProduct> BoughtProducts { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
