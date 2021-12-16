@@ -8,12 +8,12 @@ namespace Web.Data.Utils
         public int? Page { get; set; } = null;
 
 
-        public IQueryable<T> Apply(IQueryable<T> products)
+        public IQueryable<T> Apply(IQueryable<T> query)
         {
             if(Page == null)
-                return products;
+                return query;
             int startIndex = Page.Value * PageSize;
-            return products.Skip(startIndex).Take(PageSize);
+            return query.Skip(startIndex).Take(PageSize);
         }
     }
 }
