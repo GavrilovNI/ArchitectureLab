@@ -36,8 +36,8 @@ namespace Web.Controllers
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                Cart cart = new Cart(_dataContext, userId);
-                model = products.Select(x => new ProductInfo(x, cart.GetItem(x.Id).Count)).ToList();
+                Cart cart = new CartRepository(_dataContext).Get(userId);
+                model = products.Select(x => new ProductInfo(x, cart.GetItemOrCreate(x.Id).Count)).ToList();
             }
             else
             {

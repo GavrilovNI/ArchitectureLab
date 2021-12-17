@@ -21,9 +21,16 @@ namespace Web.Controllers
         {
             _dataContext = dataContext;
         }
+
+        private Cart GetCart()
+        {
+            CartRepository cartRepository = new CartRepository(_dataContext);
+            return cartRepository.Get(UserId);
+        }
+
         public async Task<IActionResult> Index()
         {
-            IQueryable<CartItem> items = new Cart(_dataContext, UserId).GetAll();
+            IEnumerable<CartItem> items = GetCart().Items;
             ProductRepository productRepository = new ProductRepository(_dataContext);
             List<ProductInfo> model = items.Select(x => new ProductInfo(productRepository, x)).ToList();
 
@@ -33,7 +40,8 @@ namespace Web.Controllers
         public IActionResult SetItemCount(long itemId, int count)
         {
             Product? product = new ProductRepository(_dataContext).Get(itemId);
-            CartItem cartItem = new Cart(_dataContext, UserId).GetItem(itemId);
+            Cart cart = GetCart();
+            CartItem cartItem = cart.GetItemOrCreate(itemId);
 
             if (product == null)
             {
@@ -52,32 +60,40 @@ namespace Web.Controllers
             }
 
             cartItem.Count = count;
+            cart.RemoveIfEmpty(cartItem.ItemId);
+            CartRepository cartRepository = new CartRepository(_dataContext);
+            cartRepository.Update(cart);
+            
 
             return RedirectToAction("Index");
         }
 
         public IActionResult AddItem(long itemId, int count)
         {
-            CartItem cartItem = new Cart(_dataContext, UserId).GetItem(itemId);
+            CartItem cartItem = GetCart().GetItemOrCreate(itemId);
             return SetItemCount(itemId, cartItem.Count + count);
         }
 
         public IActionResult RemoveItem(long itemId, int count)
         {
-            CartItem cartItem = new Cart(_dataContext, UserId).GetItem(itemId);
+            CartItem cartItem = GetCart().GetItemOrCreate(itemId);
             return SetItemCount(itemId, cartItem.Count - count);
         }
 
         public IActionResult Apply()
         {
-            Cart cart = new Cart(_dataContext, UserId);
-            if (cart.CanBeApplied() == false)
+            BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);
+            ProductRepository productRepository = new ProductRepository(_dataContext);
+            Cart cart = new Cart(UserId);
+            if (cart.CanBeApplied(productRepository) == false)
             {
-                cart.Fix();
-                return Error(401, "cart is wrong");
+                cart.Fix(productRepository);
+                return Error(400, "cart fixed");
             }
 
-            cart.Apply();
+            cart.Apply(boughtCartRepository, productRepository);
+            CartRepository cartRepository = new CartRepository(_dataContext);
+            cartRepository.Remove(UserId);
             return RedirectToAction("Index", "Order");
         }
     }

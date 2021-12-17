@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web.Data;
 
@@ -10,9 +11,10 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211217162200_CartItemUpdated")]
+    partial class CartItemUpdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.0");
@@ -256,6 +258,16 @@ namespace Web.Migrations
                     b.ToTable("BoughtProduct");
                 });
 
+            modelBuilder.Entity("Web.Data.Models.Cart", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Carts");
+                });
+
             modelBuilder.Entity("Web.Data.Models.CartItem", b =>
                 {
                     b.Property<long>("ItemId")
@@ -270,6 +282,8 @@ namespace Web.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ItemId");
+
+                    b.HasIndex("CartId");
 
                     b.ToTable("CartItems");
                 });
@@ -361,9 +375,25 @@ namespace Web.Migrations
                         .HasForeignKey("BoughtCartId");
                 });
 
+            modelBuilder.Entity("Web.Data.Models.CartItem", b =>
+                {
+                    b.HasOne("Web.Data.Models.Cart", "Cart")
+                        .WithMany("Items")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+                });
+
             modelBuilder.Entity("Web.Data.Models.BoughtCart", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Web.Data.Models.Cart", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

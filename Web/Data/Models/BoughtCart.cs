@@ -28,7 +28,7 @@ namespace Web.Data.Models
             UserId = cart.UserId;
             Time = DateTime.Now;
             Products = new List<BoughtProduct>();
-            foreach(CartItem cartItem in cart.GetAll())
+            foreach(CartItem cartItem in cart.Items)
             {
                 Product product = productAccessor.Get(cartItem.ItemId)!;
                 BoughtProduct boughtProduct = new BoughtProduct(cartItem, product);
