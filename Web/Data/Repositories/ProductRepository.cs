@@ -3,7 +3,7 @@ using Web.Data.Models;
 
 namespace Web.Data.Repositories
 {
-    public class ProductRepository : Repository
+    public class ProductRepository : Repository, IProductAccessor
     {
         public ProductRepository(DataContext context) : base(context)
         {

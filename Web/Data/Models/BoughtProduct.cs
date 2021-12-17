@@ -13,39 +13,28 @@ namespace Web.Data.Models
     {
         [Key]
         [Required]
-        public long Id { get; set; }
-
-        [Required]
-        public string UserId { get; set; }
-
-        [Required]
         public long ProductId { get; set; }
 
         [Required]
         public int Count { get; set; }
 
         [Required]
-        public DateTime Time { get; set; }
-
-        [Required]
         public float Price { get; set; }
 
         [Required]
-        public PaidStatus Paid { get; set; }
+        public PaidStatus PaidStatus { get; set; }
 
         public BoughtProduct()
         {
 
         }
 
-        public BoughtProduct(CartItem cartItem, float price)
+        public BoughtProduct(CartItem cartItem, Product product)
         {
-            UserId = cartItem.UserId;
             ProductId = cartItem.ItemId;
             Count = cartItem.Count;
-            Time = DateTime.Now;
-            Price = price;
-            Paid = PaidStatus.NotPaid;
+            Price = product.Price;
+            PaidStatus = PaidStatus.NotPaid;
         }
     }
 }

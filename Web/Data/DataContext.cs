@@ -9,7 +9,7 @@ namespace Web.Data
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<CartDbRow> Carts { get; set; }
-        public DbSet<BoughtProduct> BoughtProducts { get; set; }
+        public DbSet<BoughtCart> BoughtCarts { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)

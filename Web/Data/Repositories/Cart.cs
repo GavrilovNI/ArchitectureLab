@@ -37,6 +37,7 @@ namespace Web.Data.Models
         public void Clear()
         {
             Context.Carts.RemoveRange(GetAllDbRows());
+            Context.SaveChanges();
         }
 
         public bool CanBeApplied()
@@ -68,17 +69,18 @@ namespace Web.Data.Models
 
         public void Apply()
         {
-            BoughtProductRepository boughtProductRepository = new BoughtProductRepository(Context);
+            BoughtCartRepository boughtCartRepository = new BoughtCartRepository(Context);
             ProductRepository productRepository = new ProductRepository(Context);
-            foreach (CartItem cartItem in GetAll().ToList())
+            BoughtCart boughtCart = new BoughtCart(this, productRepository);
+
+            foreach(BoughtProduct boughtProduct in boughtCart.Products)
             {
-                Product product = productRepository.Get(cartItem.ItemId)!;
-                float price = product.Price;
-                BoughtProduct boughtProduct = new BoughtProduct(cartItem, price);
-                boughtProductRepository.Add(boughtProduct);
+                Product product = productRepository.Get(boughtProduct.ProductId);
                 product.AvaliableAmount -= boughtProduct.Count;
                 productRepository.Update(product);
             }
+
+            boughtCartRepository.Add(boughtCart);
             Clear();
         }
     }

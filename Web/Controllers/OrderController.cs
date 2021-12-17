@@ -8,7 +8,7 @@ using Web.Data.Repositories;
 namespace Web.Controllers
 {
     [Authorize]
-    public class OrderController : Controller
+    public class OrderController : AdvancedController
     {
         private readonly DataContext _dataContext;
 
@@ -21,11 +21,26 @@ namespace Web.Controllers
 
         public IActionResult Index()
         {
-            BoughtProductRepository boughtProductRepository = new BoughtProductRepository(_dataContext);
+            BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);
 
-            List<BoughtProduct> boughtProducts = boughtProductRepository.GetAll().Where(x => x.UserId == UserId).ToList();
+            List<BoughtCart> boughtCarts = boughtCartRepository.GetAll().Where(x => x.UserId == UserId).ToList();
 
-            return View(boughtProducts);
+            return View(boughtCarts);
+        }
+
+        public IActionResult PayForCart(long CartId)
+        {
+            BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);
+            BoughtCart cart = boughtCartRepository.Get(CartId);
+            if(cart.UserId != UserId)
+            {
+                return Error(401, "Access denied.");
+            }
+
+
+            cart.SetPaidStatusForAllProducts(PaidStatus.Paid);
+            boughtCartRepository.Update(cart);
+            return Index();
         }
     }
 }
