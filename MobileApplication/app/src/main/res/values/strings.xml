@@ -1,3 +1,35 @@
 <resources>
-    <string name="app_name">Architecture</string>
+    <string name="app_name">Together Сheaper</string>
+    <string name="ErrorNameOfProduct">Server did not send a name (</string>
+    <string name="ErrorOfProductDescription">Server didn\'t send a description(</string>
+    <string name="ErrorGetPrice">Failed when get price</string>
+    <string name="ErrorGetSubTotal">Failed when get subtotal for user</string>
+    <string name="ErrorGetCount">Failed when get count of products</string>
+    <string name="leftProducts">Left:</string>
+    <string name="price">Price:</string>
+    <string name="addProduct">Add</string>
+    <string name="removeProduct">Remove</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="home">Home</string>
+    <string name="products">Products</string>
+    <string name="cart">Cart</string>
+    <string name="e_mail">E-Mail: </string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_products">Products</string>
+    <string name="title_cart">Cart</string>
+    <string name="title_login">Login/Register</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="subtotal">Subtotal: </string>
+    <string name="role">Role: </string>
+    <string name="title_user">User</string>
+    <string name="min_price">Min. Price</string>
+    <string name="max_price">Max. Price</string>
+    <string name="in_the_cart">In the cart:</string>
+    <string name="pay">Pay</string>
 </resources>

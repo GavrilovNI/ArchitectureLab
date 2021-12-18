@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProductAttributes">
+        <attr name="Id" format="integer"/>
+        <attr name="Name" format="string"/>
+        <attr name="Description" format="string"/>
+        <attr name="Image" format="string"/>
+        <attr name="Price" format="float"/>
+        <attr name="Count" format="integer"/>
+        <attr name="CountInCart" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="UserAttributes">
+        <attr name="Email" format="string"/>
+        <attr name="SumInBasket" format="float"/>
+        <attr name="Role" format="integer"/>
+    </declare-styleable>
+</resources>
