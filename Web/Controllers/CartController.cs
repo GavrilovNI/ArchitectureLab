@@ -28,7 +28,7 @@ namespace Web.Controllers
             return cartRepository.Get(UserId);
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             IEnumerable<CartItem> items = GetCart().Items;
             ProductRepository productRepository = new ProductRepository(_dataContext);
