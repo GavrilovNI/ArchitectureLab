@@ -28,13 +28,14 @@ namespace Web
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            Console.WriteLine(env.ContentRootPath);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TogetherCheaper v1"));
             }
-
             app.UseStaticFiles();
             app.UseRouting();
 

@@ -1,18 +1,10 @@
-﻿using System;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Web.Data;
 using Web.Areas.Identity.Data;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.IdentityModel.Tokens;
 using Web.Jwt;
-using Microsoft.AspNetCore.Authorization;
 
 [assembly: HostingStartup(typeof(Web.Areas.Identity.IdentityHostingStartup))]
 namespace Web.Areas.Identity
@@ -23,8 +15,9 @@ namespace Web.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<DataContext>(options =>
-                    options.UseSqlite(context.Configuration.GetConnectionString("WebContextConnection"))
+                services.AddDbContext<DataContext>(options => {
+                        options.UseSqlite(context.Configuration.GetConnectionString("WebContextConnection"), b => b.MigrationsAssembly("Web"));
+                    }
                 );
 
 

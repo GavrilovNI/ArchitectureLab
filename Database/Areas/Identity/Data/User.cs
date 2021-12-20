@@ -6,13 +6,6 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Web.Areas.Identity.Data
 {
-    public enum UserType
-    {
-        Default,
-        Admin
-    }
-
-    // Add profile data for application users by adding properties to the WebApplication1User class
     public class User : IdentityUser
     {
     }

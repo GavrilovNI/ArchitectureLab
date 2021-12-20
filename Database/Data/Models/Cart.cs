@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Web.Data.Repositories;
+﻿using Web.Data.Repositories;
 
 namespace Web.Data.Models
 {
