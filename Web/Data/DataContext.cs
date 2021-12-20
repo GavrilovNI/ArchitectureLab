@@ -20,6 +20,7 @@ namespace Web.Data
         {
             base.OnModelCreating(builder);
             builder.Entity<BoughtProduct>().HasKey(l => new { l.ProductId, l.BoughtCartId });
+            builder.Entity<CartItem>().HasKey(c => new { c.CartId, c.ItemId });
         }
     }
 }

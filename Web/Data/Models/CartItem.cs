@@ -7,15 +7,14 @@ namespace Web.Data.Models
 
     public class CartItem
     {
-        [Key]
         [Required]
         public long ItemId { get; set; }
 
         [Required]
-        public int Count { get; set; }
+        public string CartId { get; set; }
 
         [Required]
-        public string CartId { get; set; }
+        public int Count { get; set; }
 
         public bool IsEmpty => Count <= 0;
 
