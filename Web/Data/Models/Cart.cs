@@ -83,9 +83,9 @@ namespace Web.Data.Models
 
         public void Apply(BoughtCartRepository boughtCartRepository, ProductRepository productRepository)
         {
-            BoughtCart boughtCart = new BoughtCart(this, productRepository);
+            BoughtCart boughtCart = new BoughtCart(this, productRepository, "no address");
 
-            foreach(BoughtProduct boughtProduct in boughtCart.Products)
+            foreach(BoughtProduct boughtProduct in boughtCart.BoughtProducts)
             {
                 Product product = productRepository.Get(boughtProduct.ProductId)!;
                 product.AvaliableAmount -= boughtProduct.Count;

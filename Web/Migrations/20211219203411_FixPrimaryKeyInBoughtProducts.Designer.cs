@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web.Data;
 
@@ -10,9 +11,10 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211219203411_FixPrimaryKeyInBoughtProducts")]
+    partial class FixPrimaryKeyInBoughtProducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.0");
@@ -232,7 +234,7 @@ namespace Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BoughtCarts", (string)null);
+                    b.ToTable("BoughtCarts");
                 });
 
             modelBuilder.Entity("Web.Data.Models.BoughtProduct", b =>
@@ -256,7 +258,7 @@ namespace Web.Migrations
 
                     b.HasIndex("BoughtCartId");
 
-                    b.ToTable("BoughtProduct", (string)null);
+                    b.ToTable("BoughtProduct");
                 });
 
             modelBuilder.Entity("Web.Data.Models.CartItem", b =>
@@ -274,7 +276,7 @@ namespace Web.Migrations
 
                     b.HasKey("ItemId");
 
-                    b.ToTable("CartItems", (string)null);
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("Web.Data.Models.Product", b =>
@@ -303,7 +305,7 @@ namespace Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

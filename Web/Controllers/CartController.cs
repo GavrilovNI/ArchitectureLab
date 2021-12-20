@@ -82,17 +82,22 @@ namespace Web.Controllers
 
         public IActionResult Apply()
         {
+            
+            
             BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);
             ProductRepository productRepository = new ProductRepository(_dataContext);
-            Cart cart = new Cart(UserId);
+
+            CartRepository cartRepository = new CartRepository(_dataContext);
+
+            Cart cart = cartRepository.Get(UserId);
             if (cart.CanBeApplied(productRepository) == false)
             {
                 cart.Fix(productRepository);
+                cartRepository.Update(cart);
                 return Error(400, "cart fixed");
             }
 
             cart.Apply(boughtCartRepository, productRepository);
-            CartRepository cartRepository = new CartRepository(_dataContext);
             cartRepository.Remove(UserId);
             return RedirectToAction("Index", "Order");
         }

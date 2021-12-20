@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Web.Data.Models
 {
@@ -11,7 +12,6 @@ namespace Web.Data.Models
 
     public class BoughtProduct
     {
-        [Key]
         [Required]
         public long ProductId { get; set; }
 
@@ -24,17 +24,24 @@ namespace Web.Data.Models
         [Required]
         public PaidStatus PaidStatus { get; set; }
 
+        [Required]
+        public long BoughtCartId { get; set; }
+        
+        [ForeignKey(nameof(BoughtCartId))]
+        public BoughtCart BoughtCart { get; set; }
+
         public BoughtProduct()
         {
 
         }
 
-        public BoughtProduct(CartItem cartItem, Product product)
+        public BoughtProduct(CartItem cartItem, Product product, BoughtCart boughtCart)
         {
             ProductId = cartItem.ItemId;
             Count = cartItem.Count;
             Price = product.Price;
             PaidStatus = PaidStatus.NotPaid;
+            BoughtCart = boughtCart;
         }
     }
 }

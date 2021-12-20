@@ -19,6 +19,7 @@ namespace Web.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<BoughtProduct>().HasKey(l => new { l.ProductId, l.BoughtCartId });
         }
     }
 }

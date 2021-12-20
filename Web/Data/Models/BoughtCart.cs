@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Web.Data.Repositories;
 
 namespace Web.Data.Models
@@ -15,30 +16,34 @@ namespace Web.Data.Models
         [Required]
         public DateTime Time { get; set; }
 
+        [InverseProperty("BoughtCart")]
+        public List<BoughtProduct> BoughtProducts { get; set; }
+
         [Required]
-        public List<BoughtProduct> Products { get; set; }
+        public string DeliveryAddress { get; set; }
 
         public BoughtCart()
         {
 
         }
 
-        public BoughtCart(Cart cart, IProductAccessor productAccessor)
+        public BoughtCart(Cart cart, IProductAccessor productAccessor, string deliveryAddress)
         {
             UserId = cart.UserId;
             Time = DateTime.Now;
-            Products = new List<BoughtProduct>();
+            BoughtProducts = new List<BoughtProduct>();
             foreach(CartItem cartItem in cart.Items)
             {
                 Product product = productAccessor.Get(cartItem.ItemId)!;
-                BoughtProduct boughtProduct = new BoughtProduct(cartItem, product);
-                Products.Add(boughtProduct);
+                BoughtProduct boughtProduct = new BoughtProduct(cartItem, product, this);
+                BoughtProducts.Add(boughtProduct);
             }
+            DeliveryAddress = deliveryAddress;
         }
 
         public void SetPaidStatusForAllProducts(PaidStatus paidStatus)
         {
-            foreach (BoughtProduct product in Products)
+            foreach (BoughtProduct product in BoughtProducts)
             {
                 product.PaidStatus = paidStatus;
             }

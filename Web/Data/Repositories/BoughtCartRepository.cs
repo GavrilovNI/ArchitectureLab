@@ -11,15 +11,19 @@ namespace Web.Data.Repositories
 
         protected DbSet<BoughtCart> DbSet => Context.BoughtCarts;
 
-        public void Add(BoughtCart item)
+        public BoughtCart Add(BoughtCart item)
         {
-            DbSet.Add(item);
+            var entityEntry = DbSet.Add(item);
             Context.SaveChanges();
+            return entityEntry.Entity;
         }
 
         public BoughtCart? Get(long id)
         {
-            return DbSet.Find(id);
+            return GetAll()
+                   .Where(x => x.Id == id)
+                   .Include(x => x.BoughtProducts)
+                   .FirstOrDefault(x => true, null);
         }
 
         public IQueryable<BoughtCart> GetAll()
