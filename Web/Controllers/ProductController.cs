@@ -24,6 +24,7 @@ namespace Web.Controllers
 
         [HttpGet]
         [HttpGet("~/[controller]")]
+        [HttpGet(DefaultApiHttpGetTemplate)]
         public IActionResult Index(
                                    [FromQuery] ProductFilter filter,
                                    [FromQuery] ProductSorter sorter,
@@ -49,17 +50,18 @@ namespace Web.Controllers
                 model = products.Select(x => new ProductInfo(x, 0)).ToList();
             }
 
-            return View(model);
+            return ApiOrView(model);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
+        [HttpGet(DefaultApiHttpGetTemplate)]
         public IActionResult Edit(long itemId)
         {
             Product? product = new ProductRepository(_dataContext).Get(itemId);
             if (product == null)
                 return Error(400, "product not found");
-            return View(product);
+            return ApiOrView(product);
         }
 
         [Authorize(Roles = "Admin")]

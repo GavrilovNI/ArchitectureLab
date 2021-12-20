@@ -32,13 +32,14 @@ namespace Web.Controllers
 
         [HttpGet]
         [HttpGet("~/[controller]")]
+        [HttpGet(DefaultApiHttpGetTemplate)]
         public IActionResult Index()
         {
             IEnumerable<CartItem> items = GetCart().Items;
             ProductRepository productRepository = new ProductRepository(_dataContext);
             List<ProductInfo> model = items.Select(x => new ProductInfo(productRepository, x)).ToList();
 
-            return View(model);
+            return ApiOrView(model);
         }
 
         [HttpGet]
@@ -90,8 +91,6 @@ namespace Web.Controllers
         [HttpGet]
         public IActionResult Apply()
         {
-            
-            
             BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);
             ProductRepository productRepository = new ProductRepository(_dataContext);
 

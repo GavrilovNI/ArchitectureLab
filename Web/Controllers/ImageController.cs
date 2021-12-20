@@ -10,15 +10,17 @@ namespace Web.Controllers
     {
         [HttpGet]
         [HttpGet("~/[controller]")]
+        [HttpGet(DefaultApiHttpGetTemplate)]
         public IActionResult Index()
         {
-            return View(Directory.GetFiles("wwwroot\\img\\uploaded", "*.*", SearchOption.AllDirectories).Select(x => x.Split('\\', 2)[1]).ToList());
+            return ApiOrView(Directory.GetFiles("wwwroot\\img\\uploaded", "*.*", SearchOption.AllDirectories).Select(x => x.Split('\\', 2)[1]).ToList());
         }
 
         [HttpGet]
+        [HttpGet(DefaultApiHttpGetTemplate)]
         public IActionResult Add()
         {
-            return View(new Image());
+            return ApiOrView(new Image());
         }
 
         [HttpPost]

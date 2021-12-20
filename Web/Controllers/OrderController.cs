@@ -22,13 +22,14 @@ namespace Web.Controllers
 
         [HttpGet]
         [HttpGet("~/[controller]")]
+        [HttpGet(DefaultApiHttpGetTemplate)]
         public IActionResult Index()
         {
             BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);
 
             List<BoughtCart> boughtCarts = boughtCartRepository.GetAll().Where(x => x.UserId == UserId).ToList();
 
-            return View(boughtCarts);
+            return ApiOrView(boughtCarts);
         }
 
         [HttpGet]
