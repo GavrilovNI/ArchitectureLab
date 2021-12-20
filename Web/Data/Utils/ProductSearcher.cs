@@ -5,7 +5,7 @@ namespace Web.Data.Utils
 {
     public class ProductSearcher
     {
-        [FromQuery(Name = "search")]
+        [FromQuery(Name = "Search")]
         public string? SearchingString { get; set; } = null;
 
         public IQueryable<Product> Apply(IQueryable<Product> products)

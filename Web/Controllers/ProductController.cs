@@ -11,6 +11,7 @@ using Web.Data.Utils;
 
 namespace Web.Controllers
 {
+    [Route("[controller]/[action]")]
     public class ProductController : AdvancedController
     {
         private const int PAGE_SIZE = 10;
@@ -22,8 +23,10 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index([FromQuery] ProductSorter sorter,
+        [HttpGet("~/[controller]")]
+        public IActionResult Index(
                                    [FromQuery] ProductFilter filter,
+                                   [FromQuery] ProductSorter sorter,
                                    [FromQuery] PageSelector<Product> pageSelector,
                                    [FromQuery] ProductSearcher searcher)
         {

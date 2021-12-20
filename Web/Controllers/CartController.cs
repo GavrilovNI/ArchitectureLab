@@ -11,6 +11,7 @@ using System.Linq;
 namespace Web.Controllers
 {
     [Authorize]
+    [Route("[controller]/[action]")]
     public class CartController : AdvancedController
     {
         private readonly DataContext _dataContext;
@@ -22,12 +23,15 @@ namespace Web.Controllers
             _dataContext = dataContext;
         }
 
+        [NonAction]
         private Cart GetCart()
         {
             CartRepository cartRepository = new CartRepository(_dataContext);
             return cartRepository.Get(UserId);
         }
 
+        [HttpGet]
+        [HttpGet("~/[controller]")]
         public IActionResult Index()
         {
             IEnumerable<CartItem> items = GetCart().Items;
@@ -37,6 +41,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public IActionResult SetItemCount(long itemId, int count)
         {
             Product? product = new ProductRepository(_dataContext).Get(itemId);
@@ -68,18 +73,21 @@ namespace Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         public IActionResult AddItem(long itemId, int count)
         {
             CartItem cartItem = GetCart().GetItemOrCreate(itemId);
             return SetItemCount(itemId, cartItem.Count + count);
         }
 
+        [HttpGet]
         public IActionResult RemoveItem(long itemId, int count)
         {
             CartItem cartItem = GetCart().GetItemOrCreate(itemId);
             return SetItemCount(itemId, cartItem.Count - count);
         }
 
+        [HttpGet]
         public IActionResult Apply()
         {
             

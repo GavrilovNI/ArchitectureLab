@@ -8,6 +8,7 @@ using Web.Data.Repositories;
 namespace Web.Controllers
 {
     [Authorize]
+    [Route("[controller]/[action]")]
     public class OrderController : AdvancedController
     {
         private readonly DataContext _dataContext;
@@ -19,6 +20,8 @@ namespace Web.Controllers
             _dataContext = dataContext;
         }
 
+        [HttpGet]
+        [HttpGet("~/[controller]")]
         public IActionResult Index()
         {
             BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);
@@ -28,6 +31,7 @@ namespace Web.Controllers
             return View(boughtCarts);
         }
 
+        [HttpGet]
         public IActionResult PayForCart(long CartId)
         {
             BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);

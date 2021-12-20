@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Sqlite;
+using Microsoft.OpenApi.Models;
 using Web.Areas.Identity.Data;
 using Web.Data;
 
@@ -15,6 +16,13 @@ namespace Web
             //services.AddDbContext<DataContext>();
             //services.AddMvc();
             services.AddRazorPages();
+
+            services.AddControllers();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TogetherCheaper", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -28,6 +36,8 @@ namespace Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TogetherCheaper v1"));
             }
 
             /*app.UseStatusCodePages();
