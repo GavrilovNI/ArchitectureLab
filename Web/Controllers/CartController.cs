@@ -1,16 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using Web.Areas.Identity.Data;
 using Web.Data;
 using Web.Data.Models;
 using Web.Data.Repositories;
-using System.Linq;
+using Web.Jwt;
 
 namespace Web.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = AuthOptions.AuthSchemes)]
     [Route("[controller]/[action]")]
     public class CartController : AdvancedController
     {
