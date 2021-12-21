@@ -78,9 +78,9 @@ namespace Web.Data.Models
                 _items.Remove(cartItem);
         }
 
-        public void Apply(BoughtCartRepository boughtCartRepository, ProductRepository productRepository)
+        public void Apply(BoughtCartRepository boughtCartRepository, ProductRepository productRepository, string deliveryAddress)
         {
-            BoughtCart boughtCart = new BoughtCart(this, productRepository, "no address");
+            BoughtCart boughtCart = new BoughtCart(this, productRepository, deliveryAddress);
 
             foreach(BoughtProduct boughtProduct in boughtCart.BoughtProducts)
             {

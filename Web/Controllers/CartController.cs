@@ -86,8 +86,8 @@ namespace Web.Controllers
             return SetItemCount(itemId, cartItem.Count - count);
         }
 
-        [HttpGet]
-        public IActionResult Apply()
+        [HttpPost]
+        public IActionResult Apply(string deliveryAddress)
         {
             BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);
             ProductRepository productRepository = new ProductRepository(_dataContext);
@@ -102,7 +102,7 @@ namespace Web.Controllers
                 return Error(400, "cart fixed");
             }
 
-            cart.Apply(boughtCartRepository, productRepository);
+            cart.Apply(boughtCartRepository, productRepository, deliveryAddress);
             cartRepository.Remove(UserId);
             return RedirectToAction("Index", "Order");
         }
