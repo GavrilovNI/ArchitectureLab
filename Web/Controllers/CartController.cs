@@ -5,6 +5,7 @@ using Web.Data;
 using Web.Data.Models;
 using Web.Data.Repositories;
 using Web.Jwt;
+using Web.ViewData;
 
 namespace Web.Controllers
 {
@@ -35,8 +36,8 @@ namespace Web.Controllers
         {
             IEnumerable<CartItem> items = GetCart().Items;
             ProductRepository productRepository = new ProductRepository(_dataContext);
-            List<ProductInfo> model = items.Select(x => new ProductInfo(productRepository, x)).ToList();
-
+            List<ProductInfo> products = items.Select(x => new ProductInfo(productRepository, x)).ToList();
+            var model = new CartIndexData(products);
             return ApiOrView(model);
         }
 
@@ -86,8 +87,8 @@ namespace Web.Controllers
             return SetItemCount(itemId, cartItem.Count - count);
         }
 
-        [HttpPost]
-        public IActionResult Apply(string deliveryAddress)
+        [HttpPost(Name = "Checkout")]
+        public IActionResult Checkout(CartIndexData deliveryAddressHandler)
         {
             BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);
             ProductRepository productRepository = new ProductRepository(_dataContext);
@@ -102,7 +103,7 @@ namespace Web.Controllers
                 return Error(400, "cart fixed");
             }
 
-            cart.Apply(boughtCartRepository, productRepository, deliveryAddress);
+            cart.Apply(boughtCartRepository, productRepository, deliveryAddressHandler.DeliveryAddress);
             cartRepository.Remove(UserId);
             return RedirectToAction("Index", "Order");
         }
