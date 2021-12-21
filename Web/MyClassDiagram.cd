@@ -25,6 +25,8 @@
         <Point X="17" Y="4.138" />
         <Point X="16.985" Y="4.138" />
         <Point X="16.985" Y="5.594" />
+        <Point X="15.583" Y="5.594" Type="JumpStart" />
+        <Point X="15.417" Y="5.594" Type="JumpEnd" />
         <Point X="14" Y="5.594" />
       </Path>
     </AssociationLine>
@@ -69,13 +71,6 @@
   </Class>
   <Class Name="Web.Controllers.ProductController">
     <Position X="14.75" Y="2.5" Width="1.5" />
-    <AssociationLine Name="_dataContext" Type="Web.Data.DataContext" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="15.5" Y="4.981" />
-        <Point X="15.5" Y="4.938" />
-        <Point X="14" Y="4.938" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBCAAEAAAAAAAA=</HashCode>
       <FileName>Controllers\ProductController.cs</FileName>
@@ -134,16 +129,11 @@
     <Position X="20" Y="6.75" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="Web.Data.Models.PaidStatus">
-    <Position X="24.25" Y="6.75" Width="1.5" />
-    <TypeIdentifier />
-  </Class>
   <Class Name="Web.Data.Models.BoughtProduct">
     <Position X="22" Y="6.75" Width="1.5" />
     <TypeIdentifier />
     <ShowAsAssociation>
       <Property Name="BoughtCart" />
-      <Property Name="PaidStatus" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Web.Data.Models.Cart">
@@ -239,6 +229,22 @@
       <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>Startup.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.AspNetCore.Identity.IdentityRole">
+    <Position X="33.5" Y="3" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Microsoft.AspNetCore.Identity.IdentityUser">
+    <Position X="33.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Microsoft.AspNetCore.Identity.IdentityUserRole&lt;TKey&gt;">
+    <Position X="35.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Web.Data.Models.PaidStatus">
+    <Position X="24.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier />
   </Class>
   <Interface Name="Web.Data.Repositories.IProductAccessor">
     <Position X="21.75" Y="10.75" Width="1.5" />

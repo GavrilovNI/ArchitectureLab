@@ -13,7 +13,7 @@ namespace Database.Data.Repositories
 {
     public class UserRepository : Repository
     {
-        protected UserRepository(DataContext context) : base(context)
+        public UserRepository(DataContext context) : base(context)
         {
         }
 
