@@ -18,9 +18,7 @@ namespace Web
                 {
                     webBuilder.UseUrls("http://localhost:80",
                                        "https://localhost:556",
-                                       "https://localhost:5001",
-                                       "http://192.168.88.27:80",
-                                       "https://192.168.88.27:556"
+                                       "https://localhost:5001"
                                        );
                     webBuilder.UseStartup<Startup>();
                 });

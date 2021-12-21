@@ -36,7 +36,7 @@ namespace Database.Data.Repositories
         public User? GetByEmail(string email)
         {
             email = email.ToUpper();
-            return Users.FirstOrDefault(u => u.NormalizedEmail == email, null);
+            return GetAll().Where(u => u.NormalizedEmail == email).ToList().FirstOrDefault(u => true, null);
         }
 
         public void SetAdmin(User user)
