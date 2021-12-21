@@ -83,6 +83,15 @@ namespace Web.Controllers
             new ProductRepository(_dataContext).Add(product);
             return View();
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [HttpGet(DefaultApiHttpGetTemplate)]
+        public IActionResult Bill(long itemId)
+        {
+            var model = ProductBill.Create(itemId, new BoughtCartRepository(_dataContext));
+            return ApiOrView(model);
+        }
     }
 }
 

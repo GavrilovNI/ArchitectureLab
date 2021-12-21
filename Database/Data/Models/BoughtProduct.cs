@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Web.Data.Models
 {
@@ -24,11 +25,16 @@ namespace Web.Data.Models
         [Required]
         public PaidStatus PaidStatus { get; set; }
 
+        [JsonIgnore]
         [Required]
         public long BoughtCartId { get; set; }
-        
+
+        [JsonIgnore]
         [ForeignKey(nameof(BoughtCartId))]
         public BoughtCart BoughtCart { get; set; }
+
+        [JsonIgnore]
+        public float TotalPrice => Count * Price;
 
         public BoughtProduct()
         {

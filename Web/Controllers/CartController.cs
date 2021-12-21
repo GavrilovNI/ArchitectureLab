@@ -67,9 +67,9 @@ namespace Web.Controllers
             cart.RemoveIfEmpty(cartItem.ItemId);
             CartRepository cartRepository = new CartRepository(_dataContext);
             cartRepository.Update(cart);
-            
 
-            return RedirectToAction("Index");
+
+            return LocalRedirect("~/api/Cart/Index");
         }
 
         [HttpGet]
