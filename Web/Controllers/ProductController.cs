@@ -50,6 +50,28 @@ namespace Web.Controllers
             return ApiOrView(model);
         }
 
+        [HttpGet("{itemId}")]
+        [HttpGet("~/[controller]/{itemId}")]
+        [HttpGet(DefaultApiHttpGetTemplate+ "/{itemId}")]
+        public IActionResult Info(int itemId)
+        {
+            IQueryable<Product> products = new ProductRepository(_dataContext).GetAll().Where(x => x.Id == itemId);
+            ProductInfo model;
+
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                Cart cart = new CartRepository(_dataContext).Get(userId);
+                model = products.Select(x => new ProductInfo(x, cart.GetItemOrCreate(x.Id).Count)).ToList().First();
+            }
+            else
+            {
+                model = products.Select(x => new ProductInfo(x, 0)).ToList().First();
+            }
+
+            return ApiOrView(model);
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpGet]
         [HttpGet(DefaultApiHttpGetTemplate)]

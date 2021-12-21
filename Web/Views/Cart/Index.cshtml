@@ -1,23 +1,34 @@
-﻿@using Web.Data.Models
+﻿@using System.Globalization
+@using Web.Data.Models
 @model IEnumerable<ProductInfo>
+
+<script src="js/CartFunctions.js"></script>
+<link href="css/ProductStyle.css" rel="stylesheet" type="text/css" />
+
 <style>
-	.all-price
-	{
+	.all-price {
 		text-align: center;
 	}
 	.all-price a {
 		font-size: 24px;
 	}
 </style>
+
 <div class="all-price">
 	<a>
-		Subtotal: $$(Тут нужно добавить общую сумму всех товаров)
+		@{
+			float totalPrice = 0;
+			foreach(ProductInfo cartItemInfo in Model) {
+				totalPrice += cartItemInfo.TotalPrice;
+			}
+		}
+		Total: @totalPrice.ToString("c", CultureInfo.CreateSpecificCulture("ru-RU"))
 	</a>
 </div>
 <div class="row mt-5 mb-2">
 	@{
 		foreach(ProductInfo cartItemInfo in Model) {
-			@Html.Partial("_ProductPartial", cartItemInfo)
+			@Html.Partial("_ProductPartial", cartItemInfo);
 		}
 	}
 </div>

@@ -1,4 +1,5 @@
-﻿using Web.Data.Repositories;
+﻿using System.Text.Json.Serialization;
+using Web.Data.Repositories;
 
 namespace Web.Data.Models
 {
@@ -6,6 +7,9 @@ namespace Web.Data.Models
     {
         public Product? Product { get; private set; }
         public int CountInCart { get; private set; }
+
+        [JsonIgnore]
+        public float TotalPrice => CountInCart * (Product?.Price ?? 0);
 
         public ProductInfo(ProductRepository productRepository, CartItem cartItem)
         {

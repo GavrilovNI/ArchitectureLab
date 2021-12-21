@@ -1,0 +1,59 @@
+﻿<style>
+.col-lg-4 p, h2, img, a, button {
+    text-align: center;
+}
+
+.col-lg-4 img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.col-lg-4 {
+    width: 49%;
+    margin: 5px auto;
+    border-width: 1px;
+    border-color: rgb(190,190,190);
+    border-style: solid;
+    border-radius: 25px;
+}
+
+.sort-itemol-lg-4 a {
+    .button-classborder: 2px;
+    border-color: rgb(190,190,190);
+    border-style: solid;
+    border-radius: 25px;
+    margin-top: 3px;
+}
+
+.button-class {
+    text-align: center;
+}
+
+.inner-sorter {
+    padding: 8px 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.sort-item {
+    color: black;
+}
+
+.for-hide {
+    visibility: hidden;
+}
+
+.button-class {
+    text-align: center;
+}
+
+</style>
