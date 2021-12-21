@@ -22,10 +22,10 @@
     <Position X="17" Y="2.5" Width="1.5" />
     <AssociationLine Name="_dataContext" Type="Web.Data.DataContext" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="17" Y="3.919" />
-        <Point X="16.625" Y="3.919" />
-        <Point X="16.625" Y="5.375" />
-        <Point X="14" Y="5.375" />
+        <Point X="17" Y="4.138" />
+        <Point X="16.985" Y="4.138" />
+        <Point X="16.985" Y="5.594" />
+        <Point X="14" Y="5.594" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -71,7 +71,7 @@
     <Position X="14.75" Y="2.5" Width="1.5" />
     <AssociationLine Name="_dataContext" Type="Web.Data.DataContext" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="15.5" Y="4.761" />
+        <Point X="15.5" Y="4.981" />
         <Point X="15.5" Y="4.938" />
         <Point X="14" Y="4.938" />
       </Path>
@@ -127,7 +127,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Web.Areas.Identity.Data.User">
-    <Position X="26.75" Y="2" Width="1.5" />
+    <Position X="17.75" Y="6.75" Width="1.5" />
     <TypeIdentifier />
   </Class>
   <Class Name="Web.Data.Models.BoughtCart">
@@ -212,6 +212,33 @@
   <Class Name="Web.Data.Utils.ProductSorter">
     <Position X="14" Y="13.25" Width="1.5" />
     <TypeIdentifier />
+  </Class>
+  <Class Name="Microsoft.AspNetCore.Mvc.Controller" Collapsed="true">
+    <Position X="14.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Web.Areas.Identity.IdentityHostingStartup">
+    <Position X="29" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Areas\Identity\IdentityHostingStartup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Web.Program">
+    <Position X="29" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Web.Startup">
+    <Position X="29" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Startup.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Interface Name="Web.Data.Repositories.IProductAccessor">
     <Position X="21.75" Y="10.75" Width="1.5" />
