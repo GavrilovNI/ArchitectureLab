@@ -1,12 +1,27 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
+using System.Net;
+using System.Net.Sockets;
 using Web.Data;
 
 namespace Web
 {
     public class Program
     {
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
+        }
+
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
@@ -18,7 +33,9 @@ namespace Web
                 {
                     webBuilder.UseUrls("http://localhost:80",
                                        "https://localhost:443",
-                                       "https://localhost:5001"
+                                       "https://localhost:5001",
+                                       "http://" + GetLocalIPAddress() + ":80",
+                                       "https://" + GetLocalIPAddress() + ":443"
                                        );
                     webBuilder.UseStartup<Startup>();
                 });
