@@ -67,5 +67,18 @@ namespace Database.Data.Repositories
             Users.Remove(user);
             Context.SaveChanges();
         }
+        public void RemoveRange(IEnumerable<User> users)
+        {
+            if (users.Count() == 0)
+                return;
+            Users.RemoveRange(users);
+            Context.SaveChanges();
+        }
+
+        public void Remove(Func<User, bool> predicate)
+        {
+            IEnumerable<User> usersToRemove = Users.Where(predicate);
+            RemoveRange(usersToRemove);
+        }
     }
 }
