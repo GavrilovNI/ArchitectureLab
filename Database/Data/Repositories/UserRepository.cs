@@ -30,13 +30,18 @@ namespace Database.Data.Repositories
 
         public User? GetById(string id)
         {
-            return Users.FirstOrDefault(u => u.Id == id, null);
+            return Get(u => u.Id == id);
         }
 
         public User? GetByEmail(string email)
         {
             email = email.ToUpper();
-            return GetAll().Where(u => u.NormalizedEmail == email).ToList().FirstOrDefault(u => true, null);
+            return Get(u => u.NormalizedEmail == email);
+        }
+
+        public User? Get(Func<User, bool> predicate)
+        {
+            return GetAll().Where(predicate).ToList().FirstOrDefault(u => true, null);
         }
 
         public void SetAdmin(User user)
