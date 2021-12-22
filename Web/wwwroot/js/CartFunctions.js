@@ -2,7 +2,7 @@
     GetProductInfo(itemId, (productInfo) => {
         let idPrefix = "product-" + itemId;
         let elem = document.getElementById(idPrefix + "-count");
-        elem.innerHTML = productInfo.countInCart;
+        elem.value = productInfo.countInCart;
     });
 }
 
@@ -14,6 +14,7 @@ function AddItem(itemId) {
         async: true,
         success: function (html) {
             UpdateProduct(itemId);
+            ChangeInputValuePlus();
         },
         error: function (jqXHR, exception) {
             alert('error: ' + jqXHR.status + ' : ' + exception + ' : ' + jqXHR.responseText);
@@ -30,6 +31,7 @@ function RemoveItem(itemId) {
         async: true,
         success: function (html) {
             UpdateProduct(itemId);
+            ChangeInputValueMinus();
         },
         error: function (jqXHR, exception) {
             alert('error: ' + jqXHR.status + ' : ' + exception + ' : ' + jqXHR.responseText);
@@ -38,7 +40,10 @@ function RemoveItem(itemId) {
     });
 }
 
-function SetItemCount(itemId, count) {
+function SetItemCount(itemId) {
+    var input = document.getElementsByClassName("quantity");
+    var count = parseInt(input[0].value);
+    count = (count < 0) ? 0 : count;
     $.ajax({
         type: "GET",
         url: "/Cart/SetItemCount",
@@ -70,3 +75,15 @@ function GetProductInfo(itemId, callback) {
         }
     });
 }
+
+/*function ChangeInputValueMinus() {
+    var input = document.getElementsByClassName("quantity");
+    var count = parseInt(input[0].value) - 1;
+    count = count < 0 ? 0 : count;
+    input[0].value = count;
+}
+function ChangeInputValuePlus() {
+    var input = document.getElementsByClassName("quantity");
+    var count = parseInt(input[0].value) + 1;
+    input[0].value = count;
+}*/

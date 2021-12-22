@@ -2,7 +2,7 @@
 @model IEnumerable<BoughtCart>
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
+<link href="css/ProductStyle.css" rel="stylesheet" type="text/css">
 <div class="row mt-5 mb-2">
 	@{
 		foreach(BoughtCart boughtCart in Model.Reverse()) {
