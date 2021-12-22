@@ -30,7 +30,7 @@ namespace Web.Data.Models
         public BoughtCart(Cart cart, IProductAccessor productAccessor, string deliveryAddress)
         {
             UserId = cart.UserId;
-            Time = DateTime.Now;
+            Time = DateTime.UtcNow;
             BoughtProducts = new List<BoughtProduct>();
             foreach(CartItem cartItem in cart.Items)
             {

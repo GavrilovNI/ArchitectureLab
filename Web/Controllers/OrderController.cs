@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Web.Data;
 using Web.Data.Models;
@@ -27,7 +28,11 @@ namespace Web.Controllers
         {
             BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);
 
-            List<BoughtCart> boughtCarts = boughtCartRepository.GetAll().Where(x => x.UserId == UserId).ToList();
+            List<BoughtCart> boughtCarts = boughtCartRepository.GetAll()
+                                                               .Include(c => c.BoughtProducts)
+                                                               .ThenInclude(p => p.Product)
+                                                               .Where(c => c.UserId == UserId)
+                                                               .ToList();
 
             return ApiOrView(boughtCarts);
         }
