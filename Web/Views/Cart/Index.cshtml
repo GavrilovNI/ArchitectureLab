@@ -20,34 +20,42 @@
 </style>
 
 <div class="all-price">
-	<a>
-		@{
-			float totalPrice = 0;
-			foreach(ProductInfo cartItemInfo in Model!.Products) {
-				totalPrice += cartItemInfo.TotalPrice;
-			}
-		}
-		Total: @totalPrice.ToString("c", CultureInfo.CreateSpecificCulture("ru-RU"))
-	</a>
-</div>
-<div class="row mt-5 mb-2">
 	@{
-		foreach(ProductInfo cartItemInfo in Model.Products) {
-			@Html.Partial("_ProductPartial", cartItemInfo);
+		float totalPrice = 0;
+		foreach(ProductInfo cartItemInfo in Model!.Products) {
+			totalPrice += cartItemInfo.TotalPrice;
 		}
 	}
+	Total: @totalPrice.ToString("c", CultureInfo.CreateSpecificCulture("ru-RU"))
 </div>
-<div class="col-md-4">
-        <form asp-route="Checkout" enctype="multipart/form-data" >
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DeliveryAddress" class="control-label"></label>
-                <input asp-for="DeliveryAddress" class="form-control" />
-                <span asp-validation-for="DeliveryAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Checkout" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+@{
+	if(Model.Products.Count() != 0)
+	{
+		<div class="row mt-5 mb-2">
+			@{
+				foreach(ProductInfo cartItemInfo in Model.Products) {
+					@Html.Partial("_ProductPartial", cartItemInfo);
+				}
+			}
+		</div>
+		<div class="col-md-4">
+			<form asp-route="Checkout" enctype="multipart/form-data" >
+				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+				<div class="form-group">
+					<label asp-for="DeliveryAddress" class="control-label"></label>
+					<input asp-for="DeliveryAddress" class="form-control" />
+					<span asp-validation-for="DeliveryAddress" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<input type="submit" value="Checkout" class="btn btn-primary" />
+				</div>
+			</form>
+		</div>
+	}
+	else
+	{
+		<p>No products added to cart.</p>
+	}
+}
 </div>
+

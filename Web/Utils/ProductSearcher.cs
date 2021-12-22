@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web.Data.Models;
 
-namespace Web.Data.Utils
+namespace Web.Utils
 {
     public class ProductSearcher
     {
