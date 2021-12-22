@@ -51,8 +51,6 @@ namespace Web.Controllers
             return ApiOrView(model);
         }
 
-        [HttpGet("{itemId}")]
-        [HttpGet("~/[controller]/{itemId}")]
         [HttpGet(DefaultApiHttpGetTemplate+ "/{itemId}")]
         public IActionResult Info(int itemId)
         {
