@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Web.Data.Models;
 
-namespace Web.Data.Utils
+namespace Web.Utils
 {
     using KeySelector = Expression<Func<Product, object>>;
 

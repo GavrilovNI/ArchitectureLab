@@ -5,7 +5,7 @@ using System.Security.Claims;
 using Web.Data;
 using Web.Data.Models;
 using Web.Data.Repositories;
-using Web.Data.Utils;
+using Web.Utils;
 
 namespace Web.Controllers
 {
