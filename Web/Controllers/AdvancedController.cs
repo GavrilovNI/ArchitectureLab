@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Web.Controllers
 {
@@ -8,9 +9,9 @@ namespace Web.Controllers
         public const string DefaultApiHttpGetTemplate = "~/" + ApiPrefix + "[controller]/[action]";
 
         [NonAction]
-        public IActionResult Error(int code, string message)
+        public IActionResult Error(HttpStatusCode code, string message)
         {
-            return RedirectToAction("Index", "Error", new { code = code, message = message } );
+            return RedirectToAction("Index", "Error", new { code = (int)code, message = message } );
         }
 
         [NonAction]

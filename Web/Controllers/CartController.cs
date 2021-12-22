@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Security.Claims;
 using Web.Data;
 using Web.Data.Models;
@@ -51,17 +52,17 @@ namespace Web.Controllers
             if (product == null)
             {
                 cartItem.Count = 0;
-                return Error(400, "product not found");
+                return Error(HttpStatusCode.BadRequest, "product not found");
             }
 
             if (count < 0)
-                return Error(400, "count can't be less than 0");
+                return Error(HttpStatusCode.BadRequest, "count can't be less than 0");
             
 
             if (count > product.AvaliableAmount)
             {
                 cartItem.Count = product.AvaliableAmount;
-                return Error(400, "not enough products");
+                return Error(HttpStatusCode.BadRequest, "not enough products");
             }
 
             cartItem.Count = count;
@@ -100,7 +101,7 @@ namespace Web.Controllers
             {
                 cart.Fix(productRepository);
                 cartRepository.Update(cart);
-                return Error(400, "cart fixed");
+                return Error(HttpStatusCode.BadRequest, "cart fixed");
             }
 
             cart.Apply(boughtCartRepository, productRepository, deliveryAddressHandler.DeliveryAddress);

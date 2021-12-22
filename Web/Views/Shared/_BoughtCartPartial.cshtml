@@ -7,6 +7,12 @@
 	foreach(BoughtProduct boughtProduct in Model.BoughtProducts) {
 		<p>Time: @Model.Time.ToString() UTC</p>
 		<p>Address: @Model.DeliveryAddress</p>
-		@Html.Partial("_BoughtProductPartial", boughtProduct);
+		@Html.Partial("_BoughtProductPartial", boughtProduct)
+		;
+	}
+	if(Model.IsFullyPaid() == false)
+	{
+		string idBtnPay = "cart-" + Model.Id + "-paybtn";
+		<a id="idBtnPay" class="nav-link px-2 text-dark" asp-controller="Order" asp-action="PayForOrder" asp-route-cartid="@Model.Id" asp-route-count=1>Pay</a>
 	}
 }

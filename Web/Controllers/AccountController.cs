@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using Web.Jwt;
 
@@ -56,7 +57,7 @@ namespace Web.Controllers
                     expiration = token.ValidTo
                 });
             }
-            return Error(400, "Wrong email/password");
+            return Error(HttpStatusCode.BadRequest, "Wrong email/password");
         }
     }
 }

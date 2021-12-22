@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using System.Security.Claims;
 using Web.Data;
 using Web.Data.Models;
@@ -38,19 +39,24 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult PayForCart(long CartId)
+        public IActionResult PayForOrder(long cartId)
         {
             BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);
-            BoughtCart cart = boughtCartRepository.Get(CartId);
+            BoughtCart cart = boughtCartRepository.Get(cartId);
             if(cart.UserId != UserId)
             {
-                return Error(401, "Access denied.");
+                return Error(HttpStatusCode.Unauthorized, "Access denied.");
+            }
+
+            if(cart.IsFullyPaid())
+            {
+                return Error(HttpStatusCode.BadRequest, "Order is fully paid.");
             }
 
 
             cart.SetPaidStatusForAllProducts(PaidStatus.Paid);
             boughtCartRepository.Update(cart);
-            return Index();
+            return LocalRedirect("~/Order");
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Web.Data.Repositories
             return GetAll()
                    .Where(x => x.Id == id)
                    .Include(x => x.BoughtProducts)
+                   .ToList()
                    .FirstOrDefault(x => true, null);
         }
 

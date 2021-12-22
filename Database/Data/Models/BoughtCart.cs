@@ -49,5 +49,26 @@ namespace Web.Data.Models
             }
         }
 
+        public bool IsFullyPaid()
+        {
+            foreach (BoughtProduct product in BoughtProducts)
+            {
+                if(product.PaidStatus != PaidStatus.Paid)
+                    return false;
+            }
+            return true;
+        }
+
+        public float MoneyForFullPaymentNeeded()
+        {
+            float result = 0f;
+            foreach (BoughtProduct product in BoughtProducts)
+            {
+                if (product.PaidStatus == PaidStatus.NotPaid)
+                    result += product.Price;
+            }
+            return result;
+        }
+
     }
 }

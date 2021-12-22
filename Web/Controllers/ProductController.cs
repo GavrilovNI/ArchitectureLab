@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Security.Claims;
 using Web.Data;
 using Web.Data.Models;
@@ -79,7 +80,7 @@ namespace Web.Controllers
         {
             Product? product = new ProductRepository(_dataContext).Get(itemId);
             if (product == null)
-                return Error(400, "product not found");
+                return Error(HttpStatusCode.BadRequest, "product not found");
             return ApiOrView(product);
         }
 
