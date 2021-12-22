@@ -45,7 +45,7 @@ namespace Web.Controllers
                 var token = new JwtSecurityToken(
                     issuer: AuthOptions.ISSUER,
                     audience: AuthOptions.AUDIENCE,
-                    expires: DateTime.Now.AddHours(AuthOptions.LIFETIME),
+                    expires: DateTime.UtcNow.AddHours(AuthOptions.LIFETIME),
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
