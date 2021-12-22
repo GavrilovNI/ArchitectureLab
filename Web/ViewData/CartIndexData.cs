@@ -17,5 +17,9 @@ namespace Web.ViewData
             DeliveryAddress = "";
         }
 
+        public CartIndexData()
+        {
+        }
+
     }
 }

@@ -70,7 +70,7 @@ namespace Web.Controllers
             cartRepository.Update(cart);
 
 
-            return LocalRedirect("~/api/Cart/Index");
+            return LocalRedirect("~/Cart/Index");
         }
 
         [HttpGet]
@@ -105,7 +105,7 @@ namespace Web.Controllers
 
             cart.Apply(boughtCartRepository, productRepository, deliveryAddressHandler.DeliveryAddress);
             cartRepository.Remove(UserId);
-            return RedirectToAction("Index", "Order");
+            return LocalRedirect("~/Order");
         }
     }
 }
