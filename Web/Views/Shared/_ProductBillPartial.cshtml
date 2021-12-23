@@ -1,0 +1,6 @@
+﻿@using Web.Data.Models
+@model ProductBill
+
+
+@Html.Partial("_BoughtProductPartial", @Model.BoughtProduct)
+<p>@Model.DeliveryAddress</p>

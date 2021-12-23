@@ -38,8 +38,12 @@
 					<br>		
 				</div>
 				if(User.IsInRole("Admin")) {
+					string idEdit = "product-" + Model.Product.Id+"-edit";
+					string idBill = "product-" + Model.Product.Id+"-bill";
 					string href = "../product/edit?itemid=" + Model.Product.Id;
-					<a class="nav-link px-2 text-black" id="edit" href="@href">Edit</a>
+					<a class="nav-link px-2 text-black" id="@idEdit" href="@href">Edit</a>
+					href = "../product/bill?itemid=" + Model.Product.Id;
+					<a class="nav-link px-2 text-black" id="@idBill" href="@href">Bill</a>
 				}
 			}
 			

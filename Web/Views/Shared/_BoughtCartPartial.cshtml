@@ -7,8 +7,7 @@
 	foreach(BoughtProduct boughtProduct in Model.BoughtProducts) {
 		<p>Time: @Model.Time.ToString() UTC</p>
 		<p>Address: @Model.DeliveryAddress</p>
-		@Html.Partial("_BoughtProductPartial", boughtProduct)
-		;
+		@Html.Partial("_BoughtProductPartial", boughtProduct);
 	}
 	if(Model.IsFullyPaid() == false)
 	{

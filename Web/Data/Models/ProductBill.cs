@@ -18,6 +18,7 @@ namespace Web.Data.Models
         {
             List<BoughtCart> allCarts = boughtCartRepository.GetAll()
                                                             .Include(x => x.BoughtProducts)
+                                                            .ThenInclude(p => p.Product)
                                                             .ToList();
 
             IEnumerable<BoughtCart> neededCarts = allCarts.Where(x => x.BoughtProducts.Any(x => x.ProductId == productId));
