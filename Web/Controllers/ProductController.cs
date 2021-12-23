@@ -114,15 +114,23 @@ namespace Web.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Create(Product product, [FromBody] LoginModel loginModel)
+        public IActionResult Create([FromForm] Product product)
+        {
+            new ProductRepository(_dataContext).Add(product);
+            return LocalRedirectApi("~/Product");
+        }
+
+        [HttpPost(DefaultApiHttpGetTemplate)]
+        public async Task<IActionResult> Create([FromForm] Product product, [FromBody] LoginModel loginModel)
         {
             var userId = await GetUserId(loginModel, "Admin");
             if (userId == null)
                 return Unauthorized();
 
             new ProductRepository(_dataContext).Add(product);
-            return View();
+            return LocalRedirectApi("~/Product");
         }
 
         [Authorize(Roles = "Admin")]
