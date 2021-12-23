@@ -78,6 +78,12 @@ namespace Web.Controllers
             if (userId != null)
                 return userId;
 
+            return await GetLoginModelUserId(loginModel);
+        }
+
+        [NonAction]
+        protected async Task<string?> GetLoginModelUserId(LoginModel? loginModel, params string[] roles)
+        {
             if (loginModel == null)
                 return null;
 
@@ -86,13 +92,13 @@ namespace Web.Controllers
                 return null;
             var result = await _signInManager!.CheckPasswordSignInAsync(user, loginModel.Password, false);
 
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 UserRepository userRepository = new UserRepository(_dataContext);
                 bool hasRole = false;
-                foreach(var role in roles)
+                foreach (var role in roles)
                 {
-                    if(userRepository.HasRole(user, role) == true)
+                    if (userRepository.HasRole(user, role) == true)
                     {
                         hasRole = true;
                         break;
