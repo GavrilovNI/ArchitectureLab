@@ -23,7 +23,7 @@
 }
 
 .sort-itemol-lg-4 a {
-    .button-classborder: 2px;
+    button-classborder: 2px;
     border-color: rgb(190,190,190);
     border-style: solid;
     border-radius: 25px;

@@ -2,7 +2,7 @@
     GetProductInfo(itemId, (productInfo) => {
         let idPrefix = "product-" + itemId;
         let elem = document.getElementById(idPrefix + "-count");
-        elem.value = productInfo.countInCart;
+        elem.value = productInfo.countInCart; 
     });
 }
 
