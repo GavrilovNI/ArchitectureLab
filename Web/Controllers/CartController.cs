@@ -138,15 +138,10 @@ namespace Web.Controllers
             return RemoveItem(itemId, count);
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost(Name = "Checkout")]
-        public IActionResult Checkout(CartIndexData deliveryAddressHandler, [FromBody] LoginModel loginModel)
+        public IActionResult Checkout(CartIndexData deliveryAddressHandler)
         {
-            if (ModelState.IsValid)
-                LoginModel = loginModel;
-            if (UserId == null)
-                return Unauthorized();
-
             if (string.IsNullOrEmpty(deliveryAddressHandler.DeliveryAddress))
                 return BadRequest();
 
@@ -166,6 +161,18 @@ namespace Web.Controllers
             cart.Apply(boughtCartRepository, productRepository, deliveryAddressHandler.DeliveryAddress);
             cartRepository.Remove(UserId);
             return LocalRedirectApi("~/Order");
+        }
+
+        [AllowAnonymous]
+        [HttpPost(DefaultApiHttpGetTemplate)]
+        public IActionResult Checkout(CartIndexData deliveryAddressHandler, [FromBody] LoginModel loginModel)
+        {
+            if (ModelState.IsValid)
+                LoginModel = loginModel;
+            if (UserId == null)
+                return Unauthorized();
+
+            return Checkout(deliveryAddressHandler);
         }
     }
 }
