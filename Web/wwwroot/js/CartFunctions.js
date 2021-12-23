@@ -2,9 +2,17 @@
     GetProductInfo(itemId, (productInfo) => {
         let idPrefix = "product-" + itemId;
         let count = document.getElementById(idPrefix + "-count");
-        let leftCount = document.getElementById(idPrefix + "-leftCount");
-        count.value = productInfo.countInCart;
-        leftCount.innerHTML = productInfo.product.avaliableAmount - productInfo.countInCart;
+        let onCartPage = window.location.href.toLowerCase().endsWith('/cart');
+        if (productInfo.countInCart == 0 && onCartPage) {
+            let product = document.getElementById(idPrefix);
+            product.remove();
+        }
+        else
+        {
+            let leftCount = document.getElementById(idPrefix + "-leftCount");
+            count.value = productInfo.countInCart;
+            leftCount.innerHTML = productInfo.product.avaliableAmount - productInfo.countInCart;
+        }
     });
 }
 

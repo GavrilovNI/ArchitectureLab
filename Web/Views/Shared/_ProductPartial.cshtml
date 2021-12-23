@@ -6,7 +6,11 @@
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
-<div class="col-lg-4">
+@{
+	string productId = "product-" + Model.Product.Id;
+}
+
+<div class="col-lg-4" id = "@productId">
 	@{
 		if(@Model == null || @Model.Product == null) {
 			<p>Product not found</p>
@@ -17,7 +21,7 @@
 			<h2>@Model.Product.Name</h2>
 			<p>@Model.Product.Description</p>
 
-			string idLeftCount = "product-" + Model.Product.Id + "-leftCount";
+			string idLeftCount = productId + "-leftCount";
 			int leftCount = Model.Product.AvaliableAmount;
 			if (User.Identity.IsAuthenticated)
 				leftCount -= Model.CountInCart;
@@ -29,9 +33,9 @@
 			{
 				<div class="button-class">
 					@{
-						string idBtnAdd = "product-" + Model.Product.Id+"-add";
-						string idBtnRemove = "product-" + Model.Product.Id+"-remove";
-						string idCount = "product-" + Model.Product.Id+"-count";
+						string idBtnAdd = productId + "-add";
+						string idBtnRemove = productId + "-remove";
+						string idCount = productId + "-count";
 					}
 					<div class="number">
 						<button class="bt_minus" type="button" id="@idBtnRemove" onclick="RemoveItem(@Model.Product.Id)">
@@ -45,8 +49,8 @@
 					<br>		
 				</div>
 				if(User.IsInRole("Admin")) {
-					string idEdit = "product-" + Model.Product.Id+"-edit";
-					string idBill = "product-" + Model.Product.Id+"-bill";
+					string idEdit = productId + "-edit";
+					string idBill = productId + "-bill";
 					string href = "../product/edit?itemid=" + Model.Product.Id;
 					<a class="nav-link px-2 text-black" id="@idEdit" href="@href">Edit</a>
 					href = "../product/bill?itemid=" + Model.Product.Id;
