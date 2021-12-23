@@ -1,12 +1,18 @@
 ﻿function UpdateProduct(itemId) {
     GetProductInfo(itemId, (productInfo) => {
         let idPrefix = "product-" + itemId;
-        let elem = document.getElementById(idPrefix + "-count");
-        elem.value = productInfo.countInCart; 
+        let count = document.getElementById(idPrefix + "-count");
+        let leftCount = document.getElementById(idPrefix + "-leftCount");
+        count.value = productInfo.countInCart;
+        leftCount.innerHTML = productInfo.product.avaliableAmount - productInfo.countInCart;
     });
 }
 
 function AddItem(itemId) {
+    let idPrefix = "product-" + itemId;
+    let leftCount = document.getElementById(idPrefix + "-leftCount");
+    if (leftCount.innerHTML == 0)
+        return;
     $.ajax({
         type: "GET",
         url: "/Cart/AddItem",
@@ -14,16 +20,19 @@ function AddItem(itemId) {
         async: true,
         success: function (html) {
             UpdateProduct(itemId);
-            ChangeInputValuePlus();
         },
         error: function (jqXHR, exception) {
-            alert('error: ' + jqXHR.status + ' : ' + exception + ' : ' + jqXHR.responseText);
+            //alert('error: ' + jqXHR.status + ' : ' + exception + ' : ' + jqXHR.responseText);
             //https://stackoverflow.com/questions/6792878/jquery-ajax-error-function
         }
     });
 }
 
 function RemoveItem(itemId) {
+    let idPrefix = "product-" + itemId;
+    let count = document.getElementById(idPrefix + "-count");
+    if (count.value == 0)
+        return;
     $.ajax({
         type: "GET",
         url: "/Cart/RemoveItem",
@@ -31,10 +40,9 @@ function RemoveItem(itemId) {
         async: true,
         success: function (html) {
             UpdateProduct(itemId);
-            ChangeInputValueMinus();
         },
         error: function (jqXHR, exception) {
-            alert('error: ' + jqXHR.status + ' : ' + exception + ' : ' + jqXHR.responseText);
+            //alert('error: ' + jqXHR.status + ' : ' + exception + ' : ' + jqXHR.responseText);
             //https://stackoverflow.com/questions/6792878/jquery-ajax-error-function
         }
     });
@@ -43,7 +51,10 @@ function RemoveItem(itemId) {
 function SetItemCount(itemId) {
     var input = document.getElementsByClassName("quantity");
     var count = parseInt(input[0].value);
-    count = (count < 0) ? 0 : count;
+
+    if (count < 0)
+        count = 0;
+
     $.ajax({
         type: "GET",
         url: "/Cart/SetItemCount",
@@ -53,7 +64,7 @@ function SetItemCount(itemId) {
             UpdateProduct(itemId);
         },
         error: function (jqXHR, exception) {
-            alert('error: ' + jqXHR.status + ' : ' + exception + ' : ' + jqXHR.responseText);
+            //alert('error: ' + jqXHR.status + ' : ' + exception + ' : ' + jqXHR.responseText);
             //https://stackoverflow.com/questions/6792878/jquery-ajax-error-function
         }
     });
@@ -75,15 +86,3 @@ function GetProductInfo(itemId, callback) {
         }
     });
 }
-
-/*function ChangeInputValueMinus() {
-    var input = document.getElementsByClassName("quantity");
-    var count = parseInt(input[0].value) - 1;
-    count = count < 0 ? 0 : count;
-    input[0].value = count;
-}
-function ChangeInputValuePlus() {
-    var input = document.getElementsByClassName("quantity");
-    var count = parseInt(input[0].value) + 1;
-    input[0].value = count;
-}*/

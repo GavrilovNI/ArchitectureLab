@@ -16,7 +16,14 @@
 			<img class="img-thumbnail" src="~/@Model.Product.LinkToImage" alt="@Model.Product.Name" />
 			<h2>@Model.Product.Name</h2>
 			<p>@Model.Product.Description</p>
-			<p>Left: @Model.Product.AvaliableAmount</p>
+
+			string idLeftCount = "product-" + Model.Product.Id + "-leftCount";
+			int leftCount = Model.Product.AvaliableAmount;
+			if (User.Identity.IsAuthenticated)
+				leftCount -= Model.CountInCart;
+
+			<p>Left: </p>
+			<p id="@idLeftCount">@leftCount</p>
 			<p>Price: @Model.Product.Price.ToString("c", CultureInfo.CreateSpecificCulture("ru-RU"))</p>
 			@if (User.Identity.IsAuthenticated)
 			{

@@ -75,8 +75,8 @@ namespace Web.Controllers
 
             if (count > product.AvaliableAmount)
             {
-                cartItem.Count = product.AvaliableAmount;
-                return Error(HttpStatusCode.BadRequest, "not enough products");
+                count = product.AvaliableAmount;
+                //return Error(HttpStatusCode.BadRequest, "not enough products");
             }
 
             cartItem.Count = count;
@@ -108,7 +108,7 @@ namespace Web.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost(DefaultApiHttpGetTemplate)]
+        [HttpPost(DefaultApiHttpGetTemplate+"/{itemId}/{count}")]
         public async Task<IActionResult> AddItem([FromBody] LoginModel loginModel, long itemId, int count)
         {
             if (ModelState.IsValid)
