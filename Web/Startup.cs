@@ -44,7 +44,6 @@ namespace Web
                 var response = context.HttpContext.Response;
 
                 if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
-
                 {
                     string returnUrl = WebUtility.UrlEncode(request.Path + request.QueryString);
                     response.Redirect("/Identity/Account/Login?ReturnUrl="+returnUrl);

@@ -6,10 +6,11 @@ using System.Security.Claims;
 using Web.Data;
 using Web.Data.Models;
 using Web.Data.Repositories;
+using Web.Jwt;
 
 namespace Web.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = AuthOptions.AuthSchemes)]
     [Route("[controller]/[action]")]
     public class OrderController : AdvancedController
     {
