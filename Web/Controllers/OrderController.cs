@@ -58,9 +58,9 @@ namespace Web.Controllers
         {
             BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);
             BoughtCart cart = boughtCartRepository.Get(cartId);
-            if(cart.UserId != UserId)
+            if (cart == null || cart.UserId != UserId)
             {
-                return Error(HttpStatusCode.Unauthorized, "Access denied.");
+                return Error(HttpStatusCode.BadRequest, "Access denied.");
             }
 
             if(cart.IsFullyPaid())
