@@ -57,8 +57,8 @@ function RemoveItem(itemId) {
 }
 
 function SetItemCount(itemId) {
-    var input = document.getElementsByClassName("quantity");
-    var count = parseInt(input[0].value);
+    let idPrefix = "product-" + itemId;
+    let count = document.getElementById(idPrefix + "-count").value;
 
     if (count < 0)
         count = 0;
