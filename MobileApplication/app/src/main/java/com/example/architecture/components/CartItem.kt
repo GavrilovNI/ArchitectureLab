@@ -1,14 +1,23 @@
 package com.example.architecture.components
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.architecture.R
-import com.example.architecture.models.CartInfo
 import com.example.architecture.models.Product
 import com.example.architecture.models.ProductInfo
+import okhttp3.*
+import java.io.IOException
+
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import java.io.InputStream
+import android.os.AsyncTask
+import com.bumptech.glide.Glide
+
 
 class CartItem(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private lateinit var myProductName: TextView;
@@ -17,7 +26,7 @@ class CartItem(context: Context?, attrs: AttributeSet?) : LinearLayout(context, 
     private lateinit var myProductPrice: TextView;
     private lateinit var myProductImage: ImageView;
     private lateinit var myCountInCart: TextView;
-    private var myCartInfo: CartInfo
+    private var myProductItem: ProductInfo;
 
     init {
         inflate(context, R.layout.component_cart, this);
@@ -31,7 +40,7 @@ class CartItem(context: Context?, attrs: AttributeSet?) : LinearLayout(context, 
         val anImage = aTypedArray.getString(R.styleable.ProductAttributes_Image);
         val aCountInCart = aTypedArray.getInt(R.styleable.ProductAttributes_CountInCart, -1);
 
-        myCartInfo = CartInfo(Product(anID, aName.toString(), aPrice, aDescription.toString(), aCount, anImage.toString()), aCountInCart);
+        myProductItem = ProductInfo(Product(anID, aName.toString(), aPrice, aDescription.toString(), aCount, anImage.toString()), aCountInCart);
         initComponents();
 
         //! Set data on components
@@ -40,23 +49,21 @@ class CartItem(context: Context?, attrs: AttributeSet?) : LinearLayout(context, 
         myProductCount.text = if(aCount < 0) R.string.ErrorGetCount.toString() else aCount.toString();
         myProductPrice.text = if(aPrice < 0) R.string.ErrorGetPrice.toString() else aPrice.toString();
         myCountInCart.text = if(aCount < 0) R.string.ErrorGetCount.toString() else aCountInCart.toString();
-
-        // TODO: For image create additional method for set image by file name and path
-        myProductImage.setImageResource(R.drawable.apple);
     }
 
-    fun SetCartInfo(theCartInfo: CartInfo)
+    fun SetCartInfo(theCartInfo: ProductInfo)
     {
-        myCartInfo = theCartInfo;
+        myProductItem = theCartInfo;
 
-        myProductName.text = if(myCartInfo.product?.name.isNullOrBlank()) R.string.ErrorNameOfProduct.toString(); else myCartInfo.product?.name;
-        myProductDescription.text = if(myCartInfo.product?.description.isNullOrBlank()) R.string.ErrorOfProductDescription.toString(); else myCartInfo.product?.description;
-        myProductCount.text = if(myCartInfo.product?.avaliableAmount!! < 0) R.string.ErrorGetCount.toString() else myCartInfo.product?.avaliableAmount.toString();
-        myProductPrice.text = if(myCartInfo.product?.price!! < 0) R.string.ErrorGetPrice.toString() else myCartInfo.product?.price.toString();
-        myCountInCart.text = if(myCartInfo.countInCart!! < 0) R.string.ErrorGetCount.toString() else myCartInfo.countInCart.toString();
+        myProductName.text = if(myProductItem.product?.name.isNullOrBlank()) R.string.ErrorNameOfProduct.toString(); else myProductItem.product?.name;
+        myProductDescription.text = if(myProductItem.product?.description.isNullOrBlank()) R.string.ErrorOfProductDescription.toString(); else myProductItem.product?.description;
+        myProductCount.text = if(myProductItem.product?.avaliableAmount!! < 0) R.string.ErrorGetCount.toString() else myProductItem.product?.avaliableAmount.toString();
+        myProductPrice.text = if(myProductItem.product?.price!! < 0) R.string.ErrorGetPrice.toString() else myProductItem.product?.price.toString();
+        myCountInCart.text = if(myProductItem.countInCart!! < 0) R.string.ErrorGetCount.toString() else myProductItem.countInCart.toString();
 
-        // TODO: For image create additional method for set image by file name and path
-        myProductImage.setImageResource(R.drawable.apple);
+        Glide.with(context)
+            .load("http://93.157.254.153/".plus(theCartInfo.product?.linkToImage))
+            .into(myProductImage);
     }
 
     private fun initComponents()

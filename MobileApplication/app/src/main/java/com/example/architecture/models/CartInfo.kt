@@ -4,17 +4,17 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 // Class that describes a user cart
-class CartInfo (theProduct: Product, theCountInCart: Int){
-    @SerializedName("product")
+class CartInfo (theProduct: List<ProductInfo>, deliveryAddress: String){
+    @SerializedName("products")
     @Expose
-    var product: Product? = null
+    var products: List<ProductInfo>? = null
 
-    @SerializedName("countInCart")
+    @SerializedName("deliveryAddress")
     @Expose
-    var countInCart: Int? = null
+    var countInCart: String? = null
 
     init{
-        product = theProduct;
-        countInCart = theCountInCart;
+        products = theProduct;
+        countInCart = deliveryAddress;
     }
 }

@@ -39,14 +39,14 @@ class CartFragment : Fragment() {
         myBinding = FragmentCartBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        var products : List<CartInfo> = listOf();
+        var products : List<ProductInfo> = listOf();
 
         // Create data for recycle view widget
         val aCartAdapter= CartAdapter(products);
-        val anObserver = Observer<List<CartInfo>?> { theCartInfoItems: List<CartInfo>? ->
-            if (theCartInfoItems != null && !theCartInfoItems.isEmpty())
+        val anObserver = Observer<CartInfo?> { theProductsInfo: CartInfo? ->
+            if (theProductsInfo != null && !theProductsInfo.products?.isEmpty()!!)
             {
-                aCartAdapter.SetCartItemInfo(theCartInfoItems);
+                aCartAdapter.SetCartItemInfo(theProductsInfo.products);
             }
         }
 

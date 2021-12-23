@@ -5,13 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.architecture.components.CartItem
 import com.example.architecture.models.CartInfo
+import com.example.architecture.models.ProductInfo
 
-class CartAdapter (theCartInfo: List<CartInfo>?) :
+class CartAdapter (theCartInfo: List<ProductInfo>?) :
     RecyclerView.Adapter<CartAdapter.ViewHolder>() {
     // no Context reference needed—can get it from a ViewGroup parameter
-    private var myCartInfo: List<CartInfo>
+    private var myCartInfo: List<ProductInfo>
     override fun getItemCount(): Int {
-        return myCartInfo.size
+        return myCartInfo.size!!
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,13 +30,13 @@ class CartAdapter (theCartInfo: List<CartInfo>?) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.SetCartItemsInfo(myCartInfo[position])
+        myCartInfo.get(position)?.let { holder.SetCartItemsInfo(it) }
     }
 
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private val customView: CartItem
 
-        fun SetCartItemsInfo(theCartInfo: CartInfo)
+        fun SetCartItemsInfo(theCartInfo: ProductInfo)
         {
             customView.SetCartInfo(theCartInfo);
         }
@@ -45,7 +46,7 @@ class CartAdapter (theCartInfo: List<CartInfo>?) :
         }
     }
 
-    fun SetCartItemInfo(theCartInfoItems: List<CartInfo>?)
+    fun SetCartItemInfo(theCartInfoItems: List<ProductInfo>?)
     {
         myCartInfo = theCartInfoItems!!;
         this.notifyDataSetChanged();
@@ -53,6 +54,6 @@ class CartAdapter (theCartInfo: List<CartInfo>?) :
 
     init {
         // make own copy of the list so it can't be edited externally
-        this.myCartInfo = ArrayList(theCartInfo)
+        this.myCartInfo = theCartInfo!!
     }
 }

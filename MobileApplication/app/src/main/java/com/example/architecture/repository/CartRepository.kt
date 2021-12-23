@@ -2,27 +2,80 @@ package com.example.architecture.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.example.architecture.interfaces.CartManagerAPI
+import com.example.architecture.interfaces.UserManagerAPI
 import com.example.architecture.models.CartInfo
+import com.example.architecture.models.User
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class CartRepository private constructor(theCartManagerAPI: CartManagerAPI){
     private val myCartManagerAPI: CartManagerAPI = theCartManagerAPI;
-    private val myCarts: MutableLiveData<List<CartInfo>?> = MutableLiveData<List<CartInfo>?>();
+    private val myCarts: MutableLiveData<CartInfo?> = MutableLiveData<CartInfo?>();
 
-    fun GetProductsCart(): MutableLiveData<List<CartInfo>?> {
-        myCartManagerAPI.GetProductsInCart(object : Callback<List<CartInfo>> {
-            override fun onResponse(call: Call<List<CartInfo>?>?, response: Response<List<CartInfo>?>) {
+    fun SetItemCount(itemId: Int, count: Int){
+        myCartManagerAPI.SetItemCount(UserRepository.GetInstance(UserManagerAPI.GetInstance()!!)!!.GetUserO(), itemId, count, object : Callback<CartInfo> {
+            override fun onResponse(call: Call<CartInfo>?, response: Response<CartInfo>) {
                 if (response.isSuccessful) {
-                    val body: List<CartInfo> = response.body() as List<CartInfo>;
+                    val body: CartInfo = response.body() as CartInfo
+                    myCarts.value = body;
+                } else {
+                    myCarts.postValue(null)
+                }
+            }
+
+            override fun onFailure(call: Call<CartInfo>?, t: Throwable?) {
+                myCarts.postValue(null)
+            }
+        })
+    }
+
+    fun AddItemToCart(itemId: Int, count: Int){
+        myCartManagerAPI.AddItemToCart(UserRepository.GetInstance(UserManagerAPI.GetInstance()!!)!!.GetUserO(), itemId, count, object : Callback<CartInfo> {
+            override fun onResponse(call: Call<CartInfo>?, response: Response<CartInfo>) {
+                if (response.isSuccessful) {
+                    val body: CartInfo = response.body() as CartInfo
+                    myCarts.value = body;
+                } else {
+                    myCarts.postValue(null)
+                }
+            }
+
+            override fun onFailure(call: Call<CartInfo>?, t: Throwable?) {
+                myCarts.postValue(null)
+            }
+        })
+    }
+
+    fun RemoveItemFromCart(itemId: Int, count: Int){
+        myCartManagerAPI.RemoveItemFromCart(UserRepository.GetInstance(UserManagerAPI.GetInstance()!!)!!.GetUserO(), itemId, count, object : Callback<CartInfo> {
+            override fun onResponse(call: Call<CartInfo>?, response: Response<CartInfo>) {
+                if (response.isSuccessful) {
+                    val body: CartInfo = response.body() as CartInfo
+                    myCarts.value = body;
+                } else {
+                    myCarts.postValue(null)
+                }
+            }
+
+            override fun onFailure(call: Call<CartInfo>?, t: Throwable?) {
+                myCarts.postValue(null)
+            }
+        })
+    }
+
+    fun GetProductsCart(user: User): MutableLiveData<CartInfo?> {
+        myCartManagerAPI.GetProductsInCart(user, object : Callback<CartInfo> {
+            override fun onResponse(call: Call<CartInfo?>?, response: Response<CartInfo?>) {
+                if (response.isSuccessful) {
+                    val body: CartInfo = response.body() as CartInfo;
                     myCarts.setValue(body);
                 } else {
                     myCarts.postValue(null);
                 }
             }
 
-            override fun onFailure(call: Call<List<CartInfo>?>?, t: Throwable?) {
+            override fun onFailure(call: Call<CartInfo?>?, t: Throwable?) {
                 myCarts.postValue(null)
             }
         });

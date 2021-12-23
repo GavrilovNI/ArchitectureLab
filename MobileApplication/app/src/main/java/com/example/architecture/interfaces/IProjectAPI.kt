@@ -1,12 +1,13 @@
 package com.example.architecture.interfaces
 
 import com.example.architecture.models.CartInfo
+import com.example.architecture.models.Order
 import com.example.architecture.models.ProductInfo
 import com.example.architecture.models.User
-import retrofit2.http.GET
 import retrofit2.Call
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.http.*
 
 // TODO: Split on some interfaces!
 interface IProjectAPI {
@@ -15,11 +16,12 @@ interface IProjectAPI {
     @POST("api/Account/CreateToken")
     fun PostCreateToken(theEmail: String, thePassword: String)
 
-    // Image part
-
     // Order part
-    //@GET("api/Order/Index")
-    //fun GetOrder(): Call<List<Order>>
+    @POST("api/Order/Index")
+    fun GetOrder(): Call<List<Order>>
+
+    @POST("api/Order/PayForOrder")
+    fun PayOrder(@Body cartId: Int)
 
     // Product part
     @GET("api/Product/Index")
@@ -32,10 +34,27 @@ interface IProjectAPI {
 //    fun EditProduct(): Call<List<ProductInfo>>
 
     // Cart Part
-    @GET("api/Cart/Index")
-    fun GetCart(): Call<List<CartInfo>>
+    @POST("api/Cart/Index")
+    fun GetCart(@Body user: User): Call<CartInfo>
+
+    @POST("api/Cart/SetItemCount/{itemId}/{count}")
+    fun SetItemCount(@Body user: User, @Path("itemId") itemId: Int, @Path("count") count: Int): Call<CartInfo>
+
+    @POST("api/Cart/AddItem/{itemId}/{count}")
+    fun AddItemToCart(@Body user: User, @Path("itemId") itemId: Int, @Path("count") count: Int): Call<CartInfo>
+
+    @POST("api/Cart/RemoveItem/{itemId}/{count}")
+    fun RemoveItemFromCart(@Body user: User, @Path("itemId") itemId: Int, @Path("count") count: Int): Call<CartInfo>
+
+    //@POST("api/Cart/Checkout")
+    //fun Checkout()
 
     // User part
     @GET("user")
     fun GetUser(): Call<User?>?
+
+    //Image part
+    @GET("{PathImg}")
+    fun LoadImage(@Path("PathImg") path: String)
+
 }

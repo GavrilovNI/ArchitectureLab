@@ -8,13 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.architecture.databinding.FragmentLoginBinding
 
-/*fun ToRegister(view: View) {
-    val registerPage = Intent(this, RegisterActivity::class.java);
-    val email = findViewById<EditText>(R.id.editTextTextEmailAddress).text;
-    if (email.isNotEmpty())
-        registerPage.putExtra("email", email.toString());
-    startActivity(registerPage);
-}*/
 //! Class describing login page
 class LoginFragment : Fragment() {
 

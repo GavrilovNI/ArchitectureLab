@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import com.example.architecture.components.ProductItem
 import com.example.architecture.models.ProductInfo
 
-
 class ProductAdapter(theProductsInfo: List<ProductInfo>?) :
     RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
     // no Context reference needed—can get it from a ViewGroup parameter
