@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Web.Areas.Identity.Data;
+using Web.Data;
 using Web.Data.Models;
 using Web.Jwt;
 
@@ -9,6 +12,10 @@ namespace Web.Controllers
     [Route("[controller]/[action]")]
     public class ImageController : AdvancedController
     {
+        public ImageController(DataContext dataContext, UserManager<User> userManager, SignInManager<User> signInManager) : base(dataContext, userManager, signInManager)
+        {
+        }
+
         [AllowAnonymous]
         [HttpGet("~/[controller]/{path}")]
         public IActionResult Get(string? path)
@@ -23,29 +30,44 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        [HttpGet(DefaultApiHttpGetTemplate)]
         public IActionResult List()
         {
             return ApiOrView(Directory.GetFiles("wwwroot\\img\\uploaded", "*.*", SearchOption.AllDirectories).Select(x => x.Split('\\', 2)[1]).ToList());
         }
 
+        [AllowAnonymous]
+        [HttpPost(DefaultApiHttpGetTemplate)]
+        public async Task<IActionResult> List([FromBody] LoginModel loginModel)
+        {
+            var userId = await GetUserId(loginModel, "Admin");
+            if (userId == null)
+                return Unauthorized();
+
+            return List();
+        }
+
         [HttpGet]
-        [HttpGet(DefaultApiHttpGetTemplate)]
         public IActionResult Add()
         {
             return ApiOrView(new Image());
         }
 
+        [AllowAnonymous]
         [HttpPost(Name = "Add")]
-        public async Task<IActionResult> Add(Image image)
+        [HttpPost(DefaultApiHttpGetTemplate)]
+        public async Task<IActionResult> Add(Image image, [FromBody] LoginModel loginModel)
         {
+            var userId = await GetUserId(loginModel, "Admin");
+            if (userId == null)
+                return Unauthorized();
+
             string path = Path.Combine("wwwroot\\img\\uploaded", image.Path??image.ImageFile.FileName);
             using (var fileStream = new FileStream(path, FileMode.Create))
             {
                 await image.ImageFile.CopyToAsync(fileStream);
             }
 
-            return RedirectToAction(nameof(Index));
+            return LocalRedirectApi("~/Image/List");
         }
 
     }

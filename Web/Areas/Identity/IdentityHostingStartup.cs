@@ -33,7 +33,7 @@ namespace Web.Areas.Identity
                   .AddDefaultTokenProviders();
 
 
-                services.AddAuthentication()
+                /*services.AddAuthentication()
                 .AddCookie(cfg =>
                 {
                     //cfg.LoginPath = "/Identity/Account/Login";
@@ -47,7 +47,7 @@ namespace Web.Areas.Identity
                         ValidAudience = AuthOptions.AUDIENCE,
                         IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
                     };
-                });
+                });*/
 
                 services.AddTransient<IEmailSender, EmailSender>();
             });

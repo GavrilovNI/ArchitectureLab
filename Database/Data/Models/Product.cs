@@ -31,5 +31,9 @@ namespace Web.Data.Models
             AvaliableAmount = avaliableAmount;
             LinkToImage = linkToImage;
         }
+
+        public Product()
+        {
+        }
     }
 }

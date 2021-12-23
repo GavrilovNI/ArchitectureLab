@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeleniumTest", "SeleniumTest\SeleniumTest.csproj", "{6B8784C6-BF49-4D33-B08C-CF7711D1562C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{7B9B617C-87EB-4E69-978F-1E4069F17098}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "Database\Database.csproj", "{7B9B617C-87EB-4E69-978F-1E4069F17098}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

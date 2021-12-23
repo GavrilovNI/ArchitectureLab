@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Claims;
+using Web.Areas.Identity.Data;
 using Web.Data;
 using Web.Data.Models;
 using Web.Data.Repositories;
@@ -16,9 +18,10 @@ namespace Web.Controllers
     {
         private readonly DataContext _dataContext;
 
-        private string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier);
+        private LoginModel LoginModel { get; set; }
+        private string? UserId => GetUserId(LoginModel).Result;
 
-        public CartController(DataContext dataContext)
+        public CartController(DataContext dataContext, UserManager<User> userManager, SignInManager<User> signInManager) : base(dataContext, userManager, signInManager)
         {
             _dataContext = dataContext;
         }
@@ -32,7 +35,6 @@ namespace Web.Controllers
 
         [HttpGet]
         [HttpGet("~/[controller]")]
-        [HttpGet(DefaultApiHttpGetTemplate)]
         public IActionResult Index()
         {
             IEnumerable<CartItem> items = GetCart().Items;
@@ -40,6 +42,18 @@ namespace Web.Controllers
             List<ProductInfo> products = items.Select(x => new ProductInfo(productRepository, x)).ToList();
             var model = new CartIndexData(products);
             return ApiOrView(model);
+        }
+
+        [AllowAnonymous]
+        [HttpPost(DefaultApiHttpGetTemplate)]
+        public async Task<IActionResult> Index([FromBody] LoginModel loginModel)
+        {
+            if(ModelState.IsValid)
+                LoginModel = loginModel;
+            if (UserId == null)
+                return Unauthorized();
+
+            return Index();
         }
 
         [HttpGet]
@@ -71,7 +85,19 @@ namespace Web.Controllers
             cartRepository.Update(cart);
 
 
-            return LocalRedirect("~/Cart/Index");
+            return LocalRedirectApi("~/Cart/Index");
+        }
+
+        [AllowAnonymous]
+        [HttpPost(DefaultApiHttpGetTemplate)]
+        public async Task<IActionResult> SetItemCount([FromBody] LoginModel loginModel, long itemId, int count)
+        {
+            if (ModelState.IsValid)
+                LoginModel = loginModel;
+            if (UserId == null)
+                return Unauthorized();
+
+            return SetItemCount(itemId, count);
         }
 
         [HttpGet]
@@ -81,6 +107,18 @@ namespace Web.Controllers
             return SetItemCount(itemId, cartItem.Count + count);
         }
 
+        [AllowAnonymous]
+        [HttpPost(DefaultApiHttpGetTemplate)]
+        public async Task<IActionResult> AddItem([FromBody] LoginModel loginModel, long itemId, int count)
+        {
+            if (ModelState.IsValid)
+                LoginModel = loginModel;
+            if (UserId == null)
+                return Unauthorized();
+
+            return AddItem(itemId, count);
+        }
+
         [HttpGet]
         public IActionResult RemoveItem(long itemId, int count)
         {
@@ -88,9 +126,30 @@ namespace Web.Controllers
             return SetItemCount(itemId, cartItem.Count - count);
         }
 
-        [HttpPost(Name = "Checkout")]
-        public IActionResult Checkout(CartIndexData deliveryAddressHandler)
+        [AllowAnonymous]
+        [HttpPost(DefaultApiHttpGetTemplate)]
+        public async Task<IActionResult> RemoveItem([FromBody] LoginModel loginModel, long itemId, int count)
         {
+            if (ModelState.IsValid)
+                LoginModel = loginModel;
+            if (UserId == null)
+                return Unauthorized();
+
+            return RemoveItem(itemId, count);
+        }
+
+        [AllowAnonymous]
+        [HttpPost(Name = "Checkout")]
+        public IActionResult Checkout(CartIndexData deliveryAddressHandler, [FromBody] LoginModel loginModel)
+        {
+            if (ModelState.IsValid)
+                LoginModel = loginModel;
+            if (UserId == null)
+                return Unauthorized();
+
+            if (string.IsNullOrEmpty(deliveryAddressHandler.DeliveryAddress))
+                return BadRequest();
+
             BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);
             ProductRepository productRepository = new ProductRepository(_dataContext);
 
@@ -106,7 +165,7 @@ namespace Web.Controllers
 
             cart.Apply(boughtCartRepository, productRepository, deliveryAddressHandler.DeliveryAddress);
             cartRepository.Remove(UserId);
-            return LocalRedirect("~/Order");
+            return LocalRedirectApi("~/Order");
         }
     }
 }
