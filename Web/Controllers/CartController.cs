@@ -70,8 +70,10 @@ namespace Web.Controllers
             }
 
             if (count < 0)
-                return Error(HttpStatusCode.BadRequest, "count can't be less than 0");
-            
+            {
+                count = 0;
+                //return Error(HttpStatusCode.BadRequest, "count can't be less than 0");
+            }
 
             if (count > product.AvaliableAmount)
             {
@@ -89,7 +91,7 @@ namespace Web.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost(DefaultApiHttpGetTemplate)]
+        [HttpPost(DefaultApiHttpGetTemplate + "/{itemId}/{count}")]
         public async Task<IActionResult> SetItemCount([FromBody] LoginModel loginModel, long itemId, int count)
         {
             if (ModelState.IsValid)
@@ -108,7 +110,7 @@ namespace Web.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost(DefaultApiHttpGetTemplate+"/{itemId}/{count}")]
+        [HttpPost(DefaultApiHttpGetTemplate + "/{itemId}/{count}")]
         public async Task<IActionResult> AddItem([FromBody] LoginModel loginModel, long itemId, int count)
         {
             if (ModelState.IsValid)
@@ -127,7 +129,7 @@ namespace Web.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost(DefaultApiHttpGetTemplate)]
+        [HttpPost(DefaultApiHttpGetTemplate + "/{itemId}/{count}")]
         public async Task<IActionResult> RemoveItem([FromBody] LoginModel loginModel, long itemId, int count)
         {
             if (ModelState.IsValid)
@@ -164,7 +166,7 @@ namespace Web.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost(DefaultApiHttpGetTemplate)]
+        [HttpPost(DefaultApiHttpGetTemplate + "/{deliveryAddressHandler}")]
         public IActionResult Checkout(CartIndexData deliveryAddressHandler, [FromBody] LoginModel loginModel)
         {
             if (ModelState.IsValid)

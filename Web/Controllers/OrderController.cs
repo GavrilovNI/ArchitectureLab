@@ -75,7 +75,7 @@ namespace Web.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost(DefaultApiHttpGetTemplate)]
+        [HttpPost(DefaultApiHttpGetTemplate + "/{cartId}")]
         public async Task<IActionResult> PayForOrder([FromBody] LoginModel loginModel, long cartId)
         {
             if (ModelState.IsValid)
