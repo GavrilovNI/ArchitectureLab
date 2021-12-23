@@ -3,6 +3,7 @@ package com.example.architecture.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -10,8 +11,13 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.architecture.R
 import com.example.architecture.databinding.ActivityMainBinding
+import com.example.architecture.interfaces.CartManagerAPI
 import com.example.architecture.interfaces.IProjectAPI
 import com.example.architecture.interfaces.RetrofitAPI
+import com.example.architecture.interfaces.UserManagerAPI
+import com.example.architecture.models.User
+import com.example.architecture.repository.CartRepository
+import com.example.architecture.repository.UserRepository
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -46,22 +52,12 @@ class MainActivity : AppCompatActivity() {
 
 
     fun RemoveProduct(view: View){
-        /*val text = findViewById<ProductItem>(R.id.productItems);
-        val productw = text.GetProduct();
-        val pM = ProductManagerAPI.GetInstance();
-        val pR = pM?.let { ProductRepository.GetInstance(it) };*/
 
-        //val product = pR?.GetProductByID(1);
-
+        CartRepository.GetInstance(CartManagerAPI.GetInstance()!!)?.RemoveItemFromCart(1, 1)
     }
 
     fun AddProduct(view: View){
-        /*val text = findViewById<ProductItem>(R.id.productItems);
-        val productw = text.GetProduct();
-        val pM = ProductManagerAPI.GetInstance();
-        val pR = pM?.let { ProductRepository.GetInstance(it) };*/
-
-        //val product = pR?.GetProductByID(1);
+        CartRepository.GetInstance(CartManagerAPI.GetInstance()!!)?.AddItemToCart(1, 1)
     }
 
     fun ToRegister(view: View) {
@@ -71,5 +67,17 @@ class MainActivity : AppCompatActivity() {
         if (email.isNotEmpty())
             registerPage.putExtra("email", email.toString());
         startActivity(registerPage);
+    }
+
+    fun Login(view: View) {
+        val email = findViewById<EditText>(R.id.editTextTextEmailAddress).text;
+        val password = findViewById<EditText>(R.id.editTextTextPassword).text;
+        if (UserRepository.GetInstance(UserManagerAPI.GetInstance()!!)
+                ?.LoginUser(User(email.toString(), password.toString())) == true
+        )
+        {
+            findViewById<Button>(R.id.Login).visibility = View.GONE;
+        }
+
     }
 }

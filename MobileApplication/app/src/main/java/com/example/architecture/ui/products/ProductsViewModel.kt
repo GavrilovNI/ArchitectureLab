@@ -15,10 +15,10 @@ class ProductsViewModel(theProductRepos: ProductRepository?) : ViewModel() {
 
     fun GetProducts() : MutableLiveData<List<ProductInfo>?>
     {
-        //myProducts = myProductRepos.GetProducts();
-        myProducts = MutableLiveData(listOf(ProductInfo(Product(2, "sss", 12f, "ssss", 3, "/ada"), 6),
-            ProductInfo(Product(2, "aaa", 12f, "dscsa", 12, "/ada"), 6), ProductInfo(Product(2, "sss", 12f, "ssss", 3, "/ada"), 6),
-            ProductInfo(Product(2, "aaa", 12f, "dscsa", 12, "/ada"), 6)));
+        myProducts = myProductRepos.GetProducts();
+        //myProducts = MutableLiveData(listOf(ProductInfo(Product(2, "sss", 12f, "ssss", 3, "/ada"), 6),
+          //  ProductInfo(Product(2, "aaa", 12f, "dscsa", 12, "/ada"), 6), ProductInfo(Product(2, "sss", 12f, "ssss", 3, "/ada"), 6),
+            //ProductInfo(Product(2, "aaa", 12f, "dscsa", 12, "/ada"), 6)));
         return myProducts;
     }
 

@@ -10,6 +10,7 @@ import retrofit2.Response
 class UserRepository private constructor(theUserManagerAPI: UserManagerAPI){
     private val myUserManagerAPI: UserManagerAPI = theUserManagerAPI;
     private val myUser: MutableLiveData<User?> = MutableLiveData<User?>();
+    private var myUserObj : User = User("", "");
 
     fun GetUser(): MutableLiveData<User?> {
         myUserManagerAPI.GetUser(object : Callback<User?> {
@@ -27,6 +28,20 @@ class UserRepository private constructor(theUserManagerAPI: UserManagerAPI){
             }
         })
         return myUser;
+    }
+
+    fun GetUserO(): User {
+        return myUserObj;
+    }
+    fun LoginUser(user: User) : Boolean
+    {
+        myUserObj = user;
+        return myUserObj.Check();
+    }
+
+    fun UnloginUser()
+    {
+        myUserObj = User("", "");
     }
 
     companion object {

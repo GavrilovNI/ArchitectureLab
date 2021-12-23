@@ -1,13 +1,19 @@
 package com.example.architecture.components
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.util.AttributeSet
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.example.architecture.R
+import com.example.architecture.interfaces.ProductManagerAPI
 import com.example.architecture.models.Product
 import com.example.architecture.models.ProductInfo
+import com.example.architecture.repository.ProductRepository
+import okhttp3.*
+import java.io.IOException
 
 // Class for create item for product
 class ProductItem(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
@@ -41,9 +47,6 @@ class ProductItem(context: Context?, attrs: AttributeSet?) : LinearLayout(contex
         myProductCount.text = if(aCount < 0) R.string.ErrorGetCount.toString() else aCount.toString();
         myProductPrice.text = if(aPrice < 0) R.string.ErrorGetPrice.toString() else aPrice.toString();
         myCountInCart.text = if(aCount < 0) R.string.ErrorGetCount.toString() else aCountInCart.toString();
-
-        // TODO: For image create additional method for set image by file name and path
-        myProductImage.setImageResource(R.drawable.apple);
     }
 
     private fun initComponents()
@@ -66,8 +69,10 @@ class ProductItem(context: Context?, attrs: AttributeSet?) : LinearLayout(contex
         myProductPrice.text = if(myProductInfo.product?.price!! < 0) R.string.ErrorGetPrice.toString() else myProductInfo.product?.price.toString();
         myCountInCart.text = if(myProductInfo.countInCart!! < 0) R.string.ErrorGetCount.toString() else myProductInfo.countInCart.toString();
 
-        // TODO: For image create additional method for set image by file name and path
-        myProductImage.setImageResource(R.drawable.apple);
+
+        Glide.with(context)
+            .load("http://93.157.254.153/".plus(theProductInfo.product?.linkToImage))
+            .into(myProductImage);
     }
 
     fun GetProduct() : ProductInfo

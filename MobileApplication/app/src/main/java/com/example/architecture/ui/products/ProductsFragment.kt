@@ -24,11 +24,13 @@ import com.example.architecture.models.Product
 import com.example.architecture.models.ProductInfo
 
 
+
 class ProductsFragment : Fragment() {
 
     private lateinit var myProductsViewModel: ProductsViewModel
     private var myBinding: FragmentProductsBinding? = null
 
+    private var ind: Int = -1;
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = myBinding!!
@@ -63,6 +65,13 @@ class ProductsFragment : Fragment() {
         aProductRecycle.adapter = aProductAdapter;
 
         return root
+    }
+
+
+    interface RecyclerViewClickListener {
+        fun recyclerViewListClicked(v: View?, position: Int)
+        {
+        }
     }
 
     override fun onDestroyView() {
