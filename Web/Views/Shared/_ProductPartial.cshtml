@@ -37,6 +37,10 @@
 					</div>
 					<br>		
 				</div>
+				if(User.IsInRole("Admin")) {
+					string href = "../product/edit?itemid=" + Model.Product.Id;
+					<a class="nav-link px-2 text-black" id="edit" href="@href">Edit</a>
+				}
 			}
 			
 
