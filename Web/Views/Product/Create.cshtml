@@ -3,3 +3,47 @@
 *@
 @{
 }
+@using System.Globalization
+@using Microsoft.AspNetCore.Identity
+@using Web.Areas.Identity.Data
+@using Web.Data.Models
+
+@model Product
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-route="Add" enctype="multipart/form-data" >
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AvaliableAmount" class="control-label"></label>
+                <input asp-for="AvaliableAmount" class="form-control" />
+                <span asp-validation-for="AvaliableAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LinkToImage" class="control-label"></label>
+                <input asp-for="LinkToImage" class="form-control" />
+                <span asp-validation-for="LinkToImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
