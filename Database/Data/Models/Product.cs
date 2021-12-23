@@ -8,7 +8,7 @@ namespace Web.Data.Models
     {
         [Key]
         [Required]
-        public long Id { get; private set; }
+        public long Id { get; set; }
 
         [Required]
         [DisplayName("Name")]

@@ -85,26 +85,40 @@ namespace Web.Controllers
             return ApiOrView(product);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Edit(Product product, [FromBody] LoginModel loginModel)
+        public IActionResult Edit(Product product)
         {
-            var userId = await GetUserId(loginModel, "Admin");
-            if (userId == null)
-                return Unauthorized();
-
             new ProductRepository(_dataContext).Update(product);
-            return View();
+            return LocalRedirectApi("~/Product");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Remove(long itemId, [FromBody] LoginModel loginModel)
+        [HttpPost(DefaultApiHttpGetTemplate)]
+        public async Task<IActionResult> Modify(Product product, [FromBody] LoginModel loginModel)
         {
             var userId = await GetUserId(loginModel, "Admin");
             if (userId == null)
                 return Unauthorized();
 
+            return Edit(product);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult Remove(long itemId)
+        {
             new ProductRepository(_dataContext).Remove(itemId);
             return LocalRedirectApi("~/Product");
+        }
+
+        [HttpPost(DefaultApiHttpGetTemplate)]
+        public async Task<IActionResult> Remove(long itemId, [FromBody] LoginModel? loginModel)
+        {
+            var userId = await GetUserId(loginModel, "Admin");
+            if (userId == null)
+                return Unauthorized();
+
+            return Remove(itemId);
         }
 
         [Authorize(Roles = "Admin")]
