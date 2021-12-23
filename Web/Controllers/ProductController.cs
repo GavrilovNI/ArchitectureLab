@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Claims;
+using Web.Areas.Identity.Data;
 using Web.Data;
 using Web.Data.Models;
 using Web.Data.Repositories;
+using Web.Jwt;
 using Web.Utils;
 
 namespace Web.Controllers
@@ -15,7 +18,7 @@ namespace Web.Controllers
         private const int PAGE_SIZE = 10;
         private readonly DataContext _dataContext;
 
-        public ProductController(DataContext dataContext)
+        public ProductController(DataContext dataContext, UserManager<User> userManager, SignInManager<User> signInManager) : base(dataContext, userManager, signInManager)
         {
             _dataContext = dataContext;
         }
@@ -82,10 +85,13 @@ namespace Web.Controllers
             return ApiOrView(product);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult Edit(Product product)
+        public async Task<IActionResult> EditAsync(Product product, [FromBody] LoginModel loginModel)
         {
+            var userId = await GetUserId(loginModel, "Admin");
+            if (userId == null)
+                return Unauthorized();
+
             new ProductRepository(_dataContext).Update(product);
             return View();
         }
@@ -97,21 +103,34 @@ namespace Web.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult Create(Product product)
+        public async Task<IActionResult> CreateAsync(Product product, [FromBody] LoginModel loginModel)
         {
+            var userId = await GetUserId(loginModel, "Admin");
+            if (userId == null)
+                return Unauthorized();
+
             new ProductRepository(_dataContext).Add(product);
             return View();
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        [HttpGet(DefaultApiHttpGetTemplate)]
         public IActionResult Bill(long itemId)
         {
             var model = ProductBill.Create(itemId, new BoughtCartRepository(_dataContext));
             return ApiOrView(model);
+        }
+
+        [AllowAnonymous]
+        [HttpPost(DefaultApiHttpGetTemplate)]
+        public async Task<IActionResult> Bill([FromBody] LoginModel loginModel, long itemId)
+        {
+            var userId = await GetUserId(loginModel, "Admin");
+            if (userId == null)
+                return Unauthorized();
+
+            return Bill(itemId);
         }
     }
 }

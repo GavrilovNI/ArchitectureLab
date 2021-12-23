@@ -18,7 +18,7 @@ namespace Web.Jwt
 
         public const string AuthSchemes =
                                           "Identity.Application"
-                                          + "," + JwtBearerDefaults.AuthenticationScheme
+                                          //+ "," + JwtBearerDefaults.AuthenticationScheme
                                           ;
     }
 }

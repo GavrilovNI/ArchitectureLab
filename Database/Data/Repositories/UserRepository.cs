@@ -62,6 +62,18 @@ namespace Database.Data.Repositories
             }
         }
 
+        public bool HasRole(User user, string role)
+        {
+            role = role.ToUpper();
+            string? roleId = Roles.Where(r => r.NormalizedName == role).ToList().FirstOrDefault(r => true, null)?.Id;
+
+            if(roleId == null)
+                return false;
+
+            bool hasRole = UserRoles.Where(r => r.UserId == user.Id && r.RoleId == roleId).Count() > 0;
+            return hasRole;
+        }
+
         public bool IsAdmin(User user)
         {
             bool isAdmin = UserRoles.Where(r => r.UserId == user.Id && r.RoleId == AdminRole.Id).Count() > 0;

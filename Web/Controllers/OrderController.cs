@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Security.Claims;
+using Web.Areas.Identity.Data;
 using Web.Data;
 using Web.Data.Models;
 using Web.Data.Repositories;
@@ -16,16 +18,16 @@ namespace Web.Controllers
     {
         private readonly DataContext _dataContext;
 
-        private string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier);
+        private LoginModel LoginModel { get; set; }
+        private string? UserId => GetUserId(LoginModel).Result;
 
-        public OrderController(DataContext dataContext)
+        public OrderController(DataContext dataContext, UserManager<User> userManager, SignInManager<User> signInManager) : base(dataContext, userManager, signInManager)
         {
             _dataContext = dataContext;
         }
 
         [HttpGet]
         [HttpGet("~/[controller]")]
-        [HttpGet(DefaultApiHttpGetTemplate)]
         public IActionResult Index()
         {
             BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);
@@ -37,6 +39,18 @@ namespace Web.Controllers
                                                                .ToList();
 
             return ApiOrView(boughtCarts);
+        }
+
+        [AllowAnonymous]
+        [HttpPost(DefaultApiHttpGetTemplate)]
+        public async Task<IActionResult> Index([FromBody] LoginModel loginModel)
+        {
+            if (ModelState.IsValid)
+                LoginModel = loginModel;
+            if (UserId == null)
+                return Unauthorized();
+
+            return Index();
         }
 
         [HttpGet]
@@ -57,7 +71,19 @@ namespace Web.Controllers
 
             cart.SetPaidStatusForAllProducts(PaidStatus.Paid);
             boughtCartRepository.Update(cart);
-            return LocalRedirect("~/Order");
+            return LocalRedirectApi("~/Order");
+        }
+
+        [AllowAnonymous]
+        [HttpPost(DefaultApiHttpGetTemplate)]
+        public async Task<IActionResult> PayForOrder([FromBody] LoginModel loginModel, long cartId)
+        {
+            if (ModelState.IsValid)
+                LoginModel = loginModel;
+            if (UserId == null)
+                return Unauthorized();
+
+            return PayForOrder(cartId);
         }
     }
 }
