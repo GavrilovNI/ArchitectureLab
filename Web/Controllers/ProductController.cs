@@ -104,7 +104,7 @@ namespace Web.Controllers
                 return Unauthorized();
 
             new ProductRepository(_dataContext).Remove(itemId);
-            return View();
+            return LocalRedirectApi("~/Product");
         }
 
         [Authorize(Roles = "Admin")]
