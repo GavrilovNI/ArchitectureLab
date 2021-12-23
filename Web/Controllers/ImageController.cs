@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Web.Areas.Identity.Data;
 using Web.Data;
 using Web.Data.Models;
@@ -25,7 +26,15 @@ namespace Web.Controllers
                 return List();
             }
 
-            var image = System.IO.File.OpenRead("wwwroot\\img\\" + path);
+            FileStream image;
+            try
+            {
+                image = System.IO.File.OpenRead("wwwroot\\img\\" + path);
+            }
+            catch (FileNotFoundException ex)
+            {
+                return Error(HttpStatusCode.BadRequest, "File not found.");
+            }
             return File(image, "image/jpeg");
         }
 
