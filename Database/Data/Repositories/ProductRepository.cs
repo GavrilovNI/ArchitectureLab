@@ -32,8 +32,10 @@ namespace Web.Data.Repositories
         {
             Product? product = Get(id);
             if (product != null)
+            {
                 DbSet.Remove(product);
-            Context.SaveChanges();
+                Context.SaveChanges();
+            }
         }
 
         public void Update(Product product)

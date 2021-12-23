@@ -86,13 +86,24 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditAsync(Product product, [FromBody] LoginModel loginModel)
+        public async Task<IActionResult> Edit(Product product, [FromBody] LoginModel loginModel)
         {
             var userId = await GetUserId(loginModel, "Admin");
             if (userId == null)
                 return Unauthorized();
 
             new ProductRepository(_dataContext).Update(product);
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Remove(long itemId, [FromBody] LoginModel loginModel)
+        {
+            var userId = await GetUserId(loginModel, "Admin");
+            if (userId == null)
+                return Unauthorized();
+
+            new ProductRepository(_dataContext).Remove(itemId);
             return View();
         }
 
@@ -104,7 +115,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(Product product, [FromBody] LoginModel loginModel)
+        public async Task<IActionResult> Create(Product product, [FromBody] LoginModel loginModel)
         {
             var userId = await GetUserId(loginModel, "Admin");
             if (userId == null)
