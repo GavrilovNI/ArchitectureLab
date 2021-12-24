@@ -30,7 +30,6 @@ class ProductsFragment : Fragment() {
     private lateinit var myProductsViewModel: ProductsViewModel
     private var myBinding: FragmentProductsBinding? = null
 
-    private var ind: Int = -1;
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = myBinding!!
@@ -52,7 +51,7 @@ class ProductsFragment : Fragment() {
         // Create data for recycle view widget
         val aProductAdapter = ProductAdapter(products);
         val anObserver = Observer<List<ProductInfo>?> { theProductsInfo: List<ProductInfo>? ->
-            if (theProductsInfo != null && !theProductsInfo.isEmpty())
+            if (theProductsInfo != null && theProductsInfo.isNotEmpty())
             {
                 aProductAdapter.SetProductsInfo(theProductsInfo);
             }
@@ -65,13 +64,6 @@ class ProductsFragment : Fragment() {
         aProductRecycle.adapter = aProductAdapter;
 
         return root
-    }
-
-
-    interface RecyclerViewClickListener {
-        fun recyclerViewListClicked(v: View?, position: Int)
-        {
-        }
     }
 
     override fun onDestroyView() {

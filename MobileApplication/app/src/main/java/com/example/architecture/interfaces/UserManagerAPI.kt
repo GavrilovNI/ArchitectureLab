@@ -1,5 +1,6 @@
 package com.example.architecture.interfaces
 
+import com.example.architecture.models.CartInfo
 import com.example.architecture.models.User
 import retrofit2.Callback
 
@@ -19,5 +20,9 @@ class UserManagerAPI : IBaseManagerAPI() {
 
     fun GetUser(callback: Callback<User?>?) {
         service?.GetUser()?.enqueue(callback)
+    }
+
+    fun Authorization(user: User, callback: Callback<User?>) {
+        service?.Authorization(user)?.enqueue(callback)
     }
 }

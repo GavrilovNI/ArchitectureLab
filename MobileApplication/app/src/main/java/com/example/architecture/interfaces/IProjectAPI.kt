@@ -30,9 +30,6 @@ interface IProjectAPI {
     @GET("api/Product/Info/{itemId}")
     fun GetProductByID(@Path("itemId") id: Int): Call<ProductInfo>
 
-//    @GET("api/Product/Edit")
-//    fun EditProduct(): Call<List<ProductInfo>>
-
     // Cart Part
     @POST("api/Cart/Index")
     fun GetCart(@Body user: User): Call<CartInfo>
@@ -52,6 +49,9 @@ interface IProjectAPI {
     // User part
     @GET("user")
     fun GetUser(): Call<User?>?
+
+    @GET("")
+    fun Authorization(@Body user: User): Call<User?>
 
     //Image part
     @GET("{PathImg}")

@@ -3,6 +3,7 @@ package com.example.architecture.components
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.util.AttributeSet
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -22,9 +23,18 @@ class ProductItem(context: Context?, attrs: AttributeSet?) : LinearLayout(contex
     private lateinit var myProductCount: TextView;
     private lateinit var myProductPrice: TextView;
     private lateinit var myProductImage: ImageView;
+    private lateinit var myButtonAdd: Button;
+    private lateinit var myButtonRemove: Button;
     private lateinit var myCountInCart: TextView;
     private var myProductInfo: ProductInfo
 
+    fun GetButtonAdd(): Button {
+        return myButtonAdd;
+    }
+
+    fun GetButtonRemove(): Button {
+        return myButtonRemove;
+    }
 
     init {
         inflate(context, R.layout.component_product, this);
@@ -44,9 +54,9 @@ class ProductItem(context: Context?, attrs: AttributeSet?) : LinearLayout(contex
         //! Set data on components
         myProductName.text = if(aName.isNullOrBlank()) R.string.ErrorNameOfProduct.toString(); else aName;
         myProductDescription.text = if(aDescription.isNullOrBlank()) R.string.ErrorOfProductDescription.toString(); else aDescription;
-        myProductCount.text = if(aCount < 0) R.string.ErrorGetCount.toString() else aCount.toString();
-        myProductPrice.text = if(aPrice < 0) R.string.ErrorGetPrice.toString() else aPrice.toString();
-        myCountInCart.text = if(aCount < 0) R.string.ErrorGetCount.toString() else aCountInCart.toString();
+        myProductCount.text = if(aCount < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.leftProducts).plus(aCount.toString());
+        myProductPrice.text = if(aPrice < 0) R.string.ErrorGetPrice.toString() else context.getString(R.string.price).plus(aPrice.toString());
+        myCountInCart.text = if(aCount < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.in_the_cart).plus(aCountInCart.toString());
     }
 
     private fun initComponents()
@@ -57,6 +67,8 @@ class ProductItem(context: Context?, attrs: AttributeSet?) : LinearLayout(contex
         myProductName = findViewById(R.id.productName);
         myProductPrice = findViewById(R.id.priceProduct);
         myCountInCart = findViewById(R.id.productCountInCart);
+        myButtonAdd = findViewById(R.id.removeProduct);
+        myButtonRemove = findViewById(R.id.addProduct);
     }
 
     fun SetProductsInfo(theProductInfo: ProductInfo)
@@ -65,9 +77,9 @@ class ProductItem(context: Context?, attrs: AttributeSet?) : LinearLayout(contex
 
         myProductName.text = if(myProductInfo.product?.name.isNullOrBlank()) R.string.ErrorNameOfProduct.toString(); else myProductInfo.product?.name;
         myProductDescription.text = if(myProductInfo.product?.description.isNullOrBlank()) R.string.ErrorOfProductDescription.toString(); else myProductInfo.product?.description;
-        myProductCount.text = if(myProductInfo.product?.avaliableAmount!! < 0) R.string.ErrorGetCount.toString() else myProductInfo.product?.avaliableAmount.toString();
-        myProductPrice.text = if(myProductInfo.product?.price!! < 0) R.string.ErrorGetPrice.toString() else myProductInfo.product?.price.toString();
-        myCountInCart.text = if(myProductInfo.countInCart!! < 0) R.string.ErrorGetCount.toString() else myProductInfo.countInCart.toString();
+        myProductCount.text = if(myProductInfo.product?.avaliableAmount!! < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.leftProducts).plus(myProductInfo.product?.avaliableAmount.toString());
+        myProductPrice.text = if(myProductInfo.product?.price!! < 0) R.string.ErrorGetPrice.toString() else context.getString(R.string.price).plus(myProductInfo.product?.price.toString());
+        myCountInCart.text = if(myProductInfo.countInCart!! < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.in_the_cart).plus(myProductInfo.countInCart.toString());
 
 
         Glide.with(context)

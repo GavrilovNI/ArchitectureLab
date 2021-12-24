@@ -2,6 +2,7 @@ package com.example.architecture.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.example.architecture.interfaces.UserManagerAPI
+import com.example.architecture.models.CartInfo
 import com.example.architecture.models.User
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,6 +43,23 @@ class UserRepository private constructor(theUserManagerAPI: UserManagerAPI){
     fun UnloginUser()
     {
         myUserObj = User("", "");
+    }
+
+    fun Authorization(user: User){
+        myUserManagerAPI.Authorization(user, object : Callback<User?> {
+            override fun onResponse(call: Call<User?>?, response: Response<User?>) {
+                if (response.isSuccessful) {
+                    val body: User = response.body() as User
+                    myUser.value = body;
+                } else {
+                    myUser.postValue(null)
+                }
+            }
+
+            override fun onFailure(call: Call<User?>?, t: Throwable?) {
+                myUser.postValue(null)
+            }
+        })
     }
 
     companion object {

@@ -18,6 +18,7 @@ import com.example.architecture.interfaces.UserManagerAPI
 import com.example.architecture.models.User
 import com.example.architecture.repository.CartRepository
 import com.example.architecture.repository.UserRepository
+import com.example.architecture.ui.products.ProductAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -51,15 +52,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun RemoveProduct(view: View){
-
-        CartRepository.GetInstance(CartManagerAPI.GetInstance()!!)?.RemoveItemFromCart(1, 1)
-    }
-
-    fun AddProduct(view: View){
-        CartRepository.GetInstance(CartManagerAPI.GetInstance()!!)?.AddItemToCart(1, 1)
-    }
-
     fun ToRegister(view: View) {
 
         val registerPage = Intent(this, RegisterActivity::class.java);
@@ -72,12 +64,18 @@ class MainActivity : AppCompatActivity() {
     fun Login(view: View) {
         val email = findViewById<EditText>(R.id.editTextTextEmailAddress).text;
         val password = findViewById<EditText>(R.id.editTextTextPassword).text;
+        if (email.isEmpty() || password.isEmpty())
+            return;
+
         if (UserRepository.GetInstance(UserManagerAPI.GetInstance()!!)
                 ?.LoginUser(User(email.toString(), password.toString())) == true
         )
         {
             findViewById<Button>(R.id.Login).visibility = View.GONE;
         }
+
+        UserRepository.GetInstance(UserManagerAPI.GetInstance()!!)!!
+            .Authorization(User(email.toString(), password.toString()));
 
     }
 }

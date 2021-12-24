@@ -4,8 +4,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.architecture.components.CartItem
+import com.example.architecture.interfaces.CartManagerAPI
 import com.example.architecture.models.CartInfo
 import com.example.architecture.models.ProductInfo
+import com.example.architecture.repository.CartRepository
 
 class CartAdapter (theCartInfo: List<ProductInfo>?) :
     RecyclerView.Adapter<CartAdapter.ViewHolder>() {
@@ -31,10 +33,21 @@ class CartAdapter (theCartInfo: List<ProductInfo>?) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         myCartInfo.get(position)?.let { holder.SetCartItemsInfo(it) }
+        holder.customView.GetButtonAdd().setOnClickListener(View.OnClickListener { // When you're inside the click listener interface,
+            // you can access the position using the ViewHolder.
+            // We'll store the position in the member variable in this case.
+            CartRepository.GetInstance(CartManagerAPI.GetInstance()!!)?.AddItemToCart(myCartInfo[position].product?.id!!, 1)
+        })
+        holder.customView.GetButtonRemove().setOnClickListener(View.OnClickListener { // When you're inside the click listener interface,
+            // you can access the position using the ViewHolder.
+            // We'll store the position in the member variable in this case.
+            CartRepository.GetInstance(CartManagerAPI.GetInstance()!!)?.RemoveItemFromCart(
+                myCartInfo[position].product?.id!!, 1)
+        })
     }
 
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        private val customView: CartItem
+        val customView: CartItem
 
         fun SetCartItemsInfo(theCartInfo: ProductInfo)
         {

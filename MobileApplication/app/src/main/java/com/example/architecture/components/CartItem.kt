@@ -16,6 +16,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import java.io.InputStream
 import android.os.AsyncTask
+import android.widget.Button
 import com.bumptech.glide.Glide
 
 
@@ -25,8 +26,18 @@ class CartItem(context: Context?, attrs: AttributeSet?) : LinearLayout(context, 
     private lateinit var myProductCount: TextView;
     private lateinit var myProductPrice: TextView;
     private lateinit var myProductImage: ImageView;
+    private lateinit var myButtonAdd: Button;
+    private lateinit var myButtonRemove: Button;
     private lateinit var myCountInCart: TextView;
     private var myProductItem: ProductInfo;
+
+    fun GetButtonAdd(): Button {
+        return myButtonAdd;
+    }
+
+    fun GetButtonRemove(): Button {
+        return myButtonRemove;
+    }
 
     init {
         inflate(context, R.layout.component_cart, this);
@@ -46,9 +57,9 @@ class CartItem(context: Context?, attrs: AttributeSet?) : LinearLayout(context, 
         //! Set data on components
         myProductName.text = if(aName.isNullOrBlank()) R.string.ErrorNameOfProduct.toString(); else aName;
         myProductDescription.text = if(aDescription.isNullOrBlank()) R.string.ErrorOfProductDescription.toString(); else aDescription;
-        myProductCount.text = if(aCount < 0) R.string.ErrorGetCount.toString() else aCount.toString();
-        myProductPrice.text = if(aPrice < 0) R.string.ErrorGetPrice.toString() else aPrice.toString();
-        myCountInCart.text = if(aCount < 0) R.string.ErrorGetCount.toString() else aCountInCart.toString();
+        myProductCount.text = if(aCount < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.leftProducts).plus(aCount.toString());
+        myProductPrice.text = if(aPrice < 0) R.string.ErrorGetPrice.toString() else context.getString(R.string.price).plus(aPrice.toString());
+        myCountInCart.text = if(aCount < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.in_the_cart).plus(aCountInCart.toString());
     }
 
     fun SetCartInfo(theCartInfo: ProductInfo)
@@ -57,9 +68,9 @@ class CartItem(context: Context?, attrs: AttributeSet?) : LinearLayout(context, 
 
         myProductName.text = if(myProductItem.product?.name.isNullOrBlank()) R.string.ErrorNameOfProduct.toString(); else myProductItem.product?.name;
         myProductDescription.text = if(myProductItem.product?.description.isNullOrBlank()) R.string.ErrorOfProductDescription.toString(); else myProductItem.product?.description;
-        myProductCount.text = if(myProductItem.product?.avaliableAmount!! < 0) R.string.ErrorGetCount.toString() else myProductItem.product?.avaliableAmount.toString();
-        myProductPrice.text = if(myProductItem.product?.price!! < 0) R.string.ErrorGetPrice.toString() else myProductItem.product?.price.toString();
-        myCountInCart.text = if(myProductItem.countInCart!! < 0) R.string.ErrorGetCount.toString() else myProductItem.countInCart.toString();
+        myProductCount.text = if(myProductItem.product?.avaliableAmount!! < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.leftProducts).plus(myProductItem.product?.avaliableAmount.toString());
+        myProductPrice.text = if(myProductItem.product?.price!! < 0) R.string.ErrorGetPrice.toString() else context.getString(R.string.price).plus(myProductItem.product?.price.toString());
+        myCountInCart.text = if(myProductItem.countInCart!! < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.in_the_cart).plus(myProductItem.countInCart.toString());
 
         Glide.with(context)
             .load("http://93.157.254.153/".plus(theCartInfo.product?.linkToImage))
@@ -74,5 +85,7 @@ class CartItem(context: Context?, attrs: AttributeSet?) : LinearLayout(context, 
         myProductName = findViewById(R.id.productName);
         myProductPrice = findViewById(R.id.priceProduct);
         myCountInCart = findViewById(R.id.productCountInCart);
+        myButtonAdd = findViewById(R.id.removeProduct);
+        myButtonRemove = findViewById(R.id.addProduct);
     }
 }
