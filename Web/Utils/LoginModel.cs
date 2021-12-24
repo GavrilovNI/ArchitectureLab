@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Web.Jwt
+namespace Web.Utils
 {
     public class LoginModel
     {

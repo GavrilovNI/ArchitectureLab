@@ -49,14 +49,19 @@ namespace Web.Data.Models
             }
         }
 
-        public bool IsFullyPaid()
+        public bool IsEveryItemHasStatus(PaidStatus paidStatus)
         {
             foreach (BoughtProduct product in BoughtProducts)
             {
-                if(product.PaidStatus != PaidStatus.Paid)
+                if (product.PaidStatus != paidStatus)
                     return false;
             }
             return true;
+        }
+
+        public bool IsFullyPaid()
+        {
+            return IsEveryItemHasStatus(PaidStatus.Paid);
         }
 
         public float MoneyForFullPaymentNeeded()
@@ -68,6 +73,20 @@ namespace Web.Data.Models
                     result += product.Price;
             }
             return result;
+        }
+
+        public void Cancel(BoughtCartRepository boughtCartRepository, ProductRepository productRepository)
+		{
+            SetPaidStatusForAllProducts(PaidStatus.Cancelled);
+
+            foreach(BoughtProduct boughtProduct in BoughtProducts)
+			{
+                Product product = productRepository.Get(boughtProduct.ProductId)!;
+                product.AvaliableAmount += boughtProduct.Count;
+                productRepository.Update(product);
+            }
+
+            boughtCartRepository.Update(this);
         }
 
     }

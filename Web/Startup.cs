@@ -1,5 +1,5 @@
 ﻿using Microsoft.OpenApi.Models;
-using Web.Jwt;
+using Web.Utils;
 using System.Net;
 
 namespace Web
@@ -15,14 +15,6 @@ namespace Web
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TogetherCheaper", Version = "v1" });
-                c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.Http,
-                    BearerFormat = "JWT",
-                    In = ParameterLocation.Header,
-                    Scheme = "bearer"
-                });
-                c.OperationFilter<AuthenticationRequirementsOperationFilter>();
             });
         }
 

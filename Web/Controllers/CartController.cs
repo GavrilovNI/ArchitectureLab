@@ -7,12 +7,12 @@ using Web.Areas.Identity.Data;
 using Web.Data;
 using Web.Data.Models;
 using Web.Data.Repositories;
-using Web.Jwt;
+using Web.Utils;
 using Web.ViewData;
 
 namespace Web.Controllers
 {
-    [Authorize(AuthenticationSchemes = AuthOptions.AuthSchemes)]
+    [Authorize]
     [Route("[controller]/[action]")]
     public class CartController : AdvancedController
     {

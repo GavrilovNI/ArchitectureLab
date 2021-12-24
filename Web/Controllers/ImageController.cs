@@ -5,11 +5,11 @@ using System.Net;
 using Web.Areas.Identity.Data;
 using Web.Data;
 using Web.Data.Models;
-using Web.Jwt;
+using Web.Utils;
 
 namespace Web.Controllers
 {
-    [Authorize(Roles = "Admin", AuthenticationSchemes = AuthOptions.AuthSchemes)]
+    [Authorize(Roles = "Admin")]
     [Route("[controller]/[action]")]
     public class ImageController : AdvancedController
     {

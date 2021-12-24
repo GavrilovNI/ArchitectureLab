@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Web.Areas.Identity.Data;
 using Web.Data;
-using Web.Jwt;
+using Web.Utils;
 
 namespace Web.Controllers
 {

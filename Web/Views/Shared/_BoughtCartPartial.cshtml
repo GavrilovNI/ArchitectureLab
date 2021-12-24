@@ -7,11 +7,19 @@
 	foreach(BoughtProduct boughtProduct in Model.BoughtProducts) {
 		<p>Time: @Model.Time.ToString() UTC</p>
 		<p>Address: @Model.DeliveryAddress</p>
-		@Html.Partial("_BoughtProductPartial", boughtProduct);
+		@Html.Partial("_BoughtProductPartial", boughtProduct)
+		;
 	}
-	if(Model.IsFullyPaid() == false)
+	if(Model.IsEveryItemHasStatus(PaidStatus.NotPaid))
 	{
 		string idBtnPay = "cart-" + Model.Id + "-paybtn";
-		<a id="idBtnPay" class="nav-link px-2 text-dark" asp-controller="Order" asp-action="PayForOrder" asp-route-cartid="@Model.Id" asp-route-count=1>Pay</a>
+		string href = "Order/PayForOrder?cartId=" + Model.Id;
+		<a id="idBtnPay" class="nav-link px-2 text-dark" href="@href">Pay</a>
+	}
+	else if(Model.IsEveryItemHasStatus(PaidStatus.Paid))
+	{
+		string idBtnPay = "cart-" + Model.Id + "-cancelbtn";
+		string href = "Order/CancelOrder?cartId=" + Model.Id;
+		<a id="idBtnPay" class="nav-link px-2 text-dark" href="@href">Cancel</a>
 	}
 }

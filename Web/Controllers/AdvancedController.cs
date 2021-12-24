@@ -5,7 +5,7 @@ using System.Net;
 using System.Security.Claims;
 using Web.Areas.Identity.Data;
 using Web.Data;
-using Web.Jwt;
+using Web.Utils;
 
 namespace Web.Controllers
 {

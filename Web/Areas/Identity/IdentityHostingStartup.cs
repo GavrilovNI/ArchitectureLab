@@ -4,7 +4,7 @@ using Web.Data;
 using Web.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.IdentityModel.Tokens;
-using Web.Jwt;
+using Web.Utils;
 
 [assembly: HostingStartup(typeof(Web.Areas.Identity.IdentityHostingStartup))]
 namespace Web.Areas.Identity

@@ -7,7 +7,7 @@ using Web.Areas.Identity.Data;
 using Web.Data;
 using Web.Data.Models;
 using Web.Data.Repositories;
-using Web.Jwt;
+using Web.Utils;
 using Web.Utils;
 
 namespace Web.Controllers

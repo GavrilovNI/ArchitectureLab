@@ -8,11 +8,11 @@ using Web.Areas.Identity.Data;
 using Web.Data;
 using Web.Data.Models;
 using Web.Data.Repositories;
-using Web.Jwt;
+using Web.Utils;
 
 namespace Web.Controllers
 {
-    [Authorize(AuthenticationSchemes = AuthOptions.AuthSchemes)]
+    [Authorize]
     [Route("[controller]/[action]")]
     public class OrderController : AdvancedController
     {
@@ -63,11 +63,10 @@ namespace Web.Controllers
                 return Error(HttpStatusCode.BadRequest, "Access denied.");
             }
 
-            if(cart.IsFullyPaid())
-            {
-                return Error(HttpStatusCode.BadRequest, "Order is fully paid.");
+            if(cart.IsEveryItemHasStatus(PaidStatus.NotPaid) == false)
+			{
+                return Error(HttpStatusCode.BadRequest, "Order was paid or cancelled.");
             }
-
 
             cart.SetPaidStatusForAllProducts(PaidStatus.Paid);
             boughtCartRepository.Update(cart);
@@ -85,5 +84,38 @@ namespace Web.Controllers
 
             return PayForOrder(cartId);
         }
+
+        [HttpGet]
+        public IActionResult CancelOrder(long cartId)
+        {
+            BoughtCartRepository boughtCartRepository = new BoughtCartRepository(_dataContext);
+            ProductRepository productRepository = new ProductRepository(_dataContext);
+            BoughtCart? cart = boughtCartRepository.Get(cartId);
+            if (cart == null || cart.UserId != UserId)
+            {
+                return Error(HttpStatusCode.BadRequest, "Access denied.");
+            }
+
+            if (cart.IsEveryItemHasStatus(PaidStatus.Paid) == false)
+            {
+                return Error(HttpStatusCode.BadRequest, "Order was not paid.");
+            }
+
+            cart.Cancel(boughtCartRepository, productRepository);
+            return LocalRedirectApi("~/Order");
+        }
+
+        [AllowAnonymous]
+        [HttpPost(DefaultApiHttpGetTemplate + "/{cartId}")]
+        public async Task<IActionResult> CancelOrder([FromBody] LoginModel loginModel, long cartId)
+        {
+            if (ModelState.IsValid)
+                LoginModel = loginModel;
+            if (UserId == null)
+                return Unauthorized();
+
+            return CancelOrder(cartId);
+        }
+
     }
 }
