@@ -44,7 +44,7 @@ namespace SeleniumTest
         }
 
         [Test]
-        public void TestHometoCartRegistr()
+        public void TestGoFromHomeToCartWhenLoggedIn()
         {
             var driver = StartBrowser();
             Cookie? cookie = GetAuthCookie(driver);
@@ -59,12 +59,12 @@ namespace SeleniumTest
 
             Login(driver, Email, Password);
 
-            driver.FindElement(By.XPath("/html/body/header/div/div/ul/li[3]/a")).Click();
+            driver.FindElement(By.XPath("/html/body/header/div/div/ul/li[4]/a")).Click();
             Assert.AreEqual(driver.Url, Url + "cart");
             CloseBrowser(driver);
         }
         [Test]
-        public void TestHometoCartUnRegistr()
+        public void TestGoFromHomeToCartWhenNotLoggedIn()
         {
             var driver = StartBrowser();
             Cookie? cookie = GetAuthCookie(driver);
@@ -77,12 +77,12 @@ namespace SeleniumTest
             Register(driver, Email, Password);
             Logout(driver);
 
-            driver.FindElement(By.XPath("/html/body/header/div/div/ul/li[3]/a")).Click();
+            driver.FindElement(By.XPath("/html/body/header/div/div/ul/li[4]/a")).Click();
             Assert.AreEqual(driver.Url, Url + "Identity/Account/Login?ReturnUrl=%2Fcart");
             CloseBrowser(driver);
         }
         [Test]
-        public void TestProducttoCartUnRegistr()
+        public void TestGoFromProductToCartWhenNotLoggedIn()
         {
             var driver = StartBrowser();
             Cookie? cookie = GetAuthCookie(driver);
@@ -96,12 +96,12 @@ namespace SeleniumTest
             Logout(driver);
 
             driver.FindElement(By.XPath("/html/body/header/div/div/ul/li[2]/a")).Click();
-            driver.FindElement(By.XPath("/html/body/header/div/div/ul/li[3]/a")).Click();
+            driver.FindElement(By.XPath("/html/body/header/div/div/ul/li[4]/a")).Click();
             Assert.AreEqual(driver.Url, Url + "Identity/Account/Login?ReturnUrl=%2Fcart");
             CloseBrowser(driver);
         }
         [Test]
-        public void TestProducttoCartRegistr()
+        public void TestGoFromProductToCartWhenLoggedIn()
         {
             var driver = StartBrowser();
             Cookie? cookie = GetAuthCookie(driver);
@@ -116,7 +116,7 @@ namespace SeleniumTest
             Login(driver, Email, Password);
 
             driver.FindElement(By.XPath("/html/body/header/div/div/ul/li[2]/a")).Click();
-            driver.FindElement(By.XPath("/html/body/header/div/div/ul/li[3]/a")).Click();
+            driver.FindElement(By.XPath("/html/body/header/div/div/ul/li[4]/a")).Click();
             Assert.AreEqual(driver.Url, Url + "cart");
             CloseBrowser(driver);
         }
@@ -154,7 +154,7 @@ namespace SeleniumTest
             }
         }
         [Test]
-        public void TestAdd()
+        public void TestAddItemToCart()
         {
             var driver = StartBrowser();
             Cookie? cookie = GetAuthCookie(driver);
@@ -180,20 +180,20 @@ namespace SeleniumTest
             foreach (Product product in products)
             {
                 long id = product.Id;
-                count = driver.FindElement(By.XPath("//*[@id='product-" + id + "-count']")).Text;
+                count = driver.FindElement(By.XPath("//*[@id='product-" + id + "-count']")).GetAttribute("value");
                 Assert.AreEqual(count, "1");
             }
             driver.Url = Url + "cart";
             foreach (Product product in products)
             {
                 long id = product.Id;
-                count = driver.FindElement(By.XPath("//*[@id='product-" + id + "-count']")).Text;
+                count = driver.FindElement(By.XPath("//*[@id='product-" + id + "-count']")).GetAttribute("value");
                 Assert.AreEqual(count, "1");
             }
             CloseBrowser(driver);
         }
         [Test]
-        public void TestRemove()
+        public void TestRemoveItemFromCart()
         {
             var driver = StartBrowser();
             Cookie? cookie = GetAuthCookie(driver);
@@ -223,14 +223,14 @@ namespace SeleniumTest
             foreach (Product product in products)
             {
                 long id = product.Id;
-                count = driver.FindElement(By.XPath("//*[@id='product-" + id + "-count']")).Text;
+                count = driver.FindElement(By.XPath("//*[@id='product-" + id + "-count']")).GetAttribute("value");
                 Assert.AreEqual(count, "0");
             }
             CloseBrowser(driver);
         }
 
         [Test]
-        public void TestEdit()
+        public void TestEditItem()
         {
             var driver = StartBrowser();
 
@@ -252,6 +252,8 @@ namespace SeleniumTest
             Assert.AreEqual(driver.FindElement(By.XPath("//*[@id='product-1']/p[1]")).Text, "Its a green App");
             Assert.AreEqual(driver.FindElement(By.XPath("//*[@id='product-1-leftCount']")).Text, "30");
             Assert.AreEqual(driver.FindElement(By.XPath("//*[@id='product-1']/p[4]")).Text, "Price: 10,00 ₽");
+
+            CloseBrowser(driver);
         }
     }
 }
