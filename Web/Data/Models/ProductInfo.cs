@@ -13,7 +13,7 @@ namespace Web.Data.Models
 
         public ProductInfo(ProductRepository productRepository, CartItem cartItem)
         {
-            Product = productRepository.Get(cartItem.ItemId);
+            Product = productRepository.GetCopy(cartItem.ItemId);
             CountInCart = cartItem.Count;
         }
         public ProductInfo(Product product, int countInCart = 0)

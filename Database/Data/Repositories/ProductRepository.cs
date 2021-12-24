@@ -23,6 +23,12 @@ namespace Web.Data.Repositories
             return DbSet.Find(id);
         }
 
+        public Product? GetCopy(long id)
+        {
+            Product? product = Get(id);
+            return product == null ? null : new Product(product);
+        }
+
         public IQueryable<Product> GetAll()
         {
             return DbSet.AsQueryable();
@@ -40,7 +46,16 @@ namespace Web.Data.Repositories
 
         public void Update(Product product)
         {
-            DbSet.Update(product);
+            Product? dbProduct = Get(product.Id);
+            if (dbProduct == null)
+                return;
+            if (dbProduct == product)
+                return;
+            dbProduct.Name = product.Name;
+            dbProduct.Price = product.Price;
+            dbProduct.Description = product.Description;
+            dbProduct.AvaliableAmount = product.AvaliableAmount;
+            dbProduct.LinkToImage = product.LinkToImage;
             Context.SaveChanges();
         }
     }

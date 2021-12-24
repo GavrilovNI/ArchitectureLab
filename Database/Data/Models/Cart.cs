@@ -45,7 +45,7 @@ namespace Web.Data.Models
         {
             foreach(CartItem cartItem in _items)
             {
-                Product? product = productAccessor.Get(cartItem.ItemId);
+                Product? product = productAccessor.GetCopy(cartItem.ItemId);
                 if(product == null)
                     return false;
                 if (product.AvaliableAmount < cartItem.Count)
@@ -58,7 +58,7 @@ namespace Web.Data.Models
         {
             foreach (CartItem cartItem in _items)
             {
-                Product? product = productAccessor.Get(cartItem.ItemId);
+                Product? product = productAccessor.GetCopy(cartItem.ItemId);
                 if (product == null)
                     cartItem.Count = 0;
                 if (product.AvaliableAmount < cartItem.Count)
@@ -84,7 +84,7 @@ namespace Web.Data.Models
 
             foreach(BoughtProduct boughtProduct in boughtCart.BoughtProducts)
             {
-                Product product = productRepository.Get(boughtProduct.ProductId)!;
+                Product product = productRepository.GetCopy(boughtProduct.ProductId)!;
                 product.AvaliableAmount -= boughtProduct.Count;
                 productRepository.Update(product);
             }

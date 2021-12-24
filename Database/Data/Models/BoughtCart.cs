@@ -34,7 +34,7 @@ namespace Web.Data.Models
             BoughtProducts = new List<BoughtProduct>();
             foreach(CartItem cartItem in cart.Items)
             {
-                Product product = productAccessor.Get(cartItem.ItemId)!;
+                Product product = productAccessor.GetCopy(cartItem.ItemId)!;
                 BoughtProduct boughtProduct = new BoughtProduct(cartItem, product, this);
                 BoughtProducts.Add(boughtProduct);
             }
@@ -81,7 +81,7 @@ namespace Web.Data.Models
 
             foreach(BoughtProduct boughtProduct in BoughtProducts)
 			{
-                Product product = productRepository.Get(boughtProduct.ProductId)!;
+                Product product = productRepository.GetCopy(boughtProduct.ProductId)!;
                 product.AvaliableAmount += boughtProduct.Count;
                 productRepository.Update(product);
             }

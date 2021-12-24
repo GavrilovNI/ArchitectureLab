@@ -79,7 +79,7 @@ namespace Web.Controllers
         [HttpGet(DefaultApiHttpGetTemplate)]
         public IActionResult Edit(long itemId)
         {
-            Product? product = new ProductRepository(_dataContext).Get(itemId);
+            Product? product = new ProductRepository(_dataContext).GetCopy(itemId);
             if (product == null)
                 return Error(HttpStatusCode.BadRequest, "product not found");
             return ApiOrView(product);

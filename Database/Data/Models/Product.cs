@@ -39,8 +39,76 @@ namespace Web.Data.Models
             LinkToImage = linkToImage;
         }
 
+        public Product(Product product)
+        {
+            Id = product.Id;
+            Name = product.Name;
+            Price = product.Price;
+            Description = product.Description;
+            AvaliableAmount = product.AvaliableAmount;
+            LinkToImage = product.LinkToImage;
+        }
+
         public Product()
         {
+        }
+
+        public static bool operator ==(Product a, Product b)
+        {
+            if (a is null)
+            {
+                if (b is null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Product a, Product b)
+        {
+            return !(a == b);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is null)
+                return false;
+            if (Object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (GetType() != obj.GetType())
+            {
+                return false;
+            }
+            Product product = (Product)obj;
+
+            return Id == product.Id &&
+                Name == product.Name &&
+                Price == product.Price &&
+                Description == product.Description &&
+                AvaliableAmount == product.AvaliableAmount &&
+                LinkToImage == product.LinkToImage;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, Price, Description, AvaliableAmount, LinkToImage);
+        }
+
+        public override string ToString()
+        {
+            return "{" +
+                nameof(Id) + ": " + Id + ", " +
+                nameof(Price) + ": " + Price + ", " +
+                nameof(Description) + ": '" + Description + "', " +
+                nameof(AvaliableAmount) + ": " + AvaliableAmount + ", " +
+                nameof(LinkToImage) + ": '" + LinkToImage + "'" +
+                "}";
         }
     }
 }

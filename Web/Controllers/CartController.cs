@@ -59,7 +59,7 @@ namespace Web.Controllers
         [HttpGet]
         public IActionResult SetItemCount(long itemId, int count)
         {
-            Product? product = new ProductRepository(_dataContext).Get(itemId);
+            Product? product = new ProductRepository(_dataContext).GetCopy(itemId);
             Cart cart = GetCart();
             CartItem cartItem = cart.GetItemOrCreate(itemId);
 
