@@ -228,5 +228,30 @@ namespace SeleniumTest
             }
             CloseBrowser(driver);
         }
+
+        [Test]
+        public void TestEdit()
+        {
+            var driver = StartBrowser();
+
+            Login(driver, "admin@test.com", "admin1");
+            driver.Url = Url + "product";
+            ProductRepository productRepository = new ProductRepository(_context);
+           
+            driver.FindElement(By.XPath("//*[@id='product-1-edit']")).Click();
+            driver.FindElement(By.XPath("//*[@id='Name']")).Clear();
+            driver.FindElement(By.XPath("//*[@id='Name']")).SendKeys("Appl");
+            driver.FindElement(By.XPath("//*[@id='Price']")).Clear();
+            driver.FindElement(By.XPath("//*[@id='Price']")).SendKeys("10");
+            driver.FindElement(By.XPath("//*[@id='Description']")).Clear();
+            driver.FindElement(By.XPath("//*[@id='Description']")).SendKeys("Its a green App");
+            driver.FindElement(By.XPath("//*[@id='AvaliableAmount']")).Clear();
+            driver.FindElement(By.XPath("//*[@id='AvaliableAmount']")).SendKeys("30");
+            driver.FindElement(By.XPath("/html/body/div/div/div/form/div[7]/input")).Submit();
+            Assert.AreEqual(driver.FindElement(By.XPath("//*[@id='product-1']/h2")).Text, "Appl");
+            Assert.AreEqual(driver.FindElement(By.XPath("//*[@id='product-1']/p[1]")).Text, "Its a green App");
+            Assert.AreEqual(driver.FindElement(By.XPath("//*[@id='product-1-leftCount']")).Text, "30");
+            Assert.AreEqual(driver.FindElement(By.XPath("//*[@id='product-1']/p[4]")).Text, "Price: 10,00 ₽");
+        }
     }
 }
