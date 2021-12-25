@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_products, R.id.navigation_cart, R.id.navigation_login, R.id.navigation_user
+                R.id.navigation_home, R.id.navigation_products, R.id.navigation_cart, R.id.navigation_login, R.id.navigation_user, R.id.navigation_order
             )
         )
         //setupActionBarWithNavController(navController, appBarConfiguration)
@@ -62,20 +62,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun Login(view: View) {
-        val email = findViewById<EditText>(R.id.editTextTextEmailAddress).text;
-        val password = findViewById<EditText>(R.id.editTextTextPassword).text;
+        val emailView = findViewById<EditText>(R.id.editTextTextEmailAddress);
+        val passwordView = findViewById<EditText>(R.id.editTextTextPassword);
+        val email = emailView.text;
+        val password = passwordView.text;
         if (email.isEmpty() || password.isEmpty())
             return;
 
-        if (UserRepository.GetInstance(UserManagerAPI.GetInstance()!!)
+        /*if (UserRepository.GetInstance(UserManagerAPI.GetInstance()!!)
                 ?.LoginUser(User(email.toString(), password.toString())) == true
         )
         {
             findViewById<Button>(R.id.Login).visibility = View.GONE;
-        }
+        }*/
+
 
         UserRepository.GetInstance(UserManagerAPI.GetInstance()!!)!!
             .Authorization(User(email.toString(), password.toString()));
-
+        if (UserRepository.GetInstance(UserManagerAPI.GetInstance()!!)!!.GetIsValid()) {
+            findViewById<Button>(R.id.Login).visibility = View.GONE;
+            findViewById<Button>(R.id.RegisterPage).visibility = View.GONE;
+            emailView.isEnabled = false;
+            passwordView.isEnabled = false;
+        }
     }
 }

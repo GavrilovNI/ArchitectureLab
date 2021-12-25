@@ -54,9 +54,9 @@ class ProductItem(context: Context?, attrs: AttributeSet?) : LinearLayout(contex
         //! Set data on components
         myProductName.text = if(aName.isNullOrBlank()) R.string.ErrorNameOfProduct.toString(); else aName;
         myProductDescription.text = if(aDescription.isNullOrBlank()) R.string.ErrorOfProductDescription.toString(); else aDescription;
-        myProductCount.text = if(aCount < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.leftProducts).plus(aCount.toString());
-        myProductPrice.text = if(aPrice < 0) R.string.ErrorGetPrice.toString() else context.getString(R.string.price).plus(aPrice.toString());
-        myCountInCart.text = if(aCount < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.in_the_cart).plus(aCountInCart.toString());
+        myProductCount.text = if(aCount < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.leftProducts).plus("  ").plus(aCount.toString());
+        myProductPrice.text = if(aPrice < 0) R.string.ErrorGetPrice.toString() else context.getString(R.string.price).plus("  ").plus(aPrice.toString());
+        myCountInCart.text = if(aCount < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.in_the_cart).plus("  ").plus(aCountInCart.toString());
     }
 
     private fun initComponents()
@@ -67,8 +67,8 @@ class ProductItem(context: Context?, attrs: AttributeSet?) : LinearLayout(contex
         myProductName = findViewById(R.id.productName);
         myProductPrice = findViewById(R.id.priceProduct);
         myCountInCart = findViewById(R.id.productCountInCart);
-        myButtonAdd = findViewById(R.id.removeProduct);
-        myButtonRemove = findViewById(R.id.addProduct);
+        myButtonAdd = findViewById(R.id.addProduct);
+        myButtonRemove = findViewById(R.id.removeProduct);
     }
 
     fun SetProductsInfo(theProductInfo: ProductInfo)
@@ -77,9 +77,9 @@ class ProductItem(context: Context?, attrs: AttributeSet?) : LinearLayout(contex
 
         myProductName.text = if(myProductInfo.product?.name.isNullOrBlank()) R.string.ErrorNameOfProduct.toString(); else myProductInfo.product?.name;
         myProductDescription.text = if(myProductInfo.product?.description.isNullOrBlank()) R.string.ErrorOfProductDescription.toString(); else myProductInfo.product?.description;
-        myProductCount.text = if(myProductInfo.product?.avaliableAmount!! < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.leftProducts).plus(myProductInfo.product?.avaliableAmount.toString());
-        myProductPrice.text = if(myProductInfo.product?.price!! < 0) R.string.ErrorGetPrice.toString() else context.getString(R.string.price).plus(myProductInfo.product?.price.toString());
-        myCountInCart.text = if(myProductInfo.countInCart!! < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.in_the_cart).plus(myProductInfo.countInCart.toString());
+        myProductCount.text = if(myProductInfo.product?.avaliableAmount!! < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.leftProducts).plus("  ").plus(myProductInfo.product!!.GetAvalCount().toString());
+        myProductPrice.text = if(myProductInfo.product?.price!! < 0) R.string.ErrorGetPrice.toString() else context.getString(R.string.price).plus("  ").plus(myProductInfo.product?.price.toString());
+        myCountInCart.text = if(myProductInfo.countInCart!! < 0) R.string.ErrorGetCount.toString() else context.getString(R.string.in_the_cart).plus("  ").plus(myProductInfo.countInCart.toString());
 
 
         Glide.with(context)

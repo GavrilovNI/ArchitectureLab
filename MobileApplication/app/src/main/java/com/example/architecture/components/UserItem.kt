@@ -6,6 +6,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.architecture.R
+import com.example.architecture.interfaces.CartManagerAPI
+import com.example.architecture.models.User
+import com.example.architecture.repository.CartRepository
 
 class UserItem (context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private lateinit var myEmail: TextView;
@@ -24,10 +27,18 @@ class UserItem (context: Context?, attrs: AttributeSet?) : LinearLayout(context,
         initComponents();
 
         //! Set data on components
-        myEmail.text = myEmail.text.toString().plus(anEmail);
-        myRole.text = myRole.text.toString().plus( if(myRoles.containsKey(aRole)) myRoles[aRole] else myRoles[1]);
-        mySumInBasket.text = mySumInBasket.text.toString().plus( if(aSubTotal < 0) R.string.ErrorGetPrice.toString() else aSubTotal.toString());
+        myEmail.text = myEmail.text.toString().plus("  ").plus(anEmail);
+        myRole.text = myRole.text.toString().plus("  ").plus( if(myRoles.containsKey(aRole)) myRoles[aRole] else myRoles[1]);
+        mySumInBasket.text = mySumInBasket.text.toString().plus("  ").plus( if(aSubTotal < 0) R.string.ErrorGetPrice.toString() else aSubTotal.toString());
 
+    }
+
+    fun SetData(user: User)
+    {
+        val aSum = CartRepository.GetInstance(CartManagerAPI.GetInstance()!!)?.GetSumInCart();
+        myEmail.text = context.getString(R.string.e_mail).plus("  ").plus(user.myEmail);
+        myRole.text = context.getString(R.string.role).plus("  ").plus( if(myRoles.containsKey(1)) myRoles[1] else myRoles[1]);
+        mySumInBasket.text = context.getString(R.string.subtotal).plus("  ").plus(aSum);
     }
 
     private fun initComponents()

@@ -4,6 +4,7 @@ import com.example.architecture.models.CartInfo
 import com.example.architecture.models.Order
 import com.example.architecture.models.ProductInfo
 import com.example.architecture.models.User
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,10 +19,10 @@ interface IProjectAPI {
 
     // Order part
     @POST("api/Order/Index")
-    fun GetOrder(): Call<List<Order>>
+    fun GetOrder(@Body user: User): Call<List<Order>>
 
-    @POST("api/Order/PayForOrder")
-    fun PayOrder(@Body cartId: Int)
+    @POST("api/Order/PayForOrder/{cartId}")
+    fun PayOrder(@Body cartId: Int, @Path("cartId") id: Int): Call<Order>
 
     // Product part
     @GET("api/Product/Index")
@@ -50,8 +51,8 @@ interface IProjectAPI {
     @GET("user")
     fun GetUser(): Call<User?>?
 
-    @GET("")
-    fun Authorization(@Body user: User): Call<User?>
+    @POST("/api/Account/IsValid")
+    fun Authorization(@Body user: User): Call<Boolean?>
 
     //Image part
     @GET("{PathImg}")

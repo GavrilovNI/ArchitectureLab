@@ -27,9 +27,13 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="subtotal">Subtotal: </string>
     <string name="role">Role: </string>
-    <string name="title_user">User</string>
+    <string name="title_user">User </string>
     <string name="min_price">Min. Price</string>
     <string name="max_price">Max. Price</string>
-    <string name="in_the_cart">In the cart:</string>
+    <string name="in_the_cart">In the cart: </string>
     <string name="pay">Pay</string>
+    <string name="count">Count</string>
+    <string name="paid_status">Paid Status</string>
+    <string name="time">Time:</string>
+    <string name="title_order">Order</string>
 </resources>

@@ -64,12 +64,40 @@ class CartRepository private constructor(theCartManagerAPI: CartManagerAPI){
         })
     }
 
+    fun GetSumInCart() : String
+    {
+        val aProducts = GetProductsCart(
+            UserRepository.GetInstance(UserManagerAPI.GetInstance()!!)
+                ?.GetUserO()!!
+        ).value?.products;
+        var sum = 0.0;
+        if (!aProducts.isNullOrEmpty())
+        {
+            for (anIndex in aProducts!!.indices)
+            {
+                sum += aProducts[anIndex].product!!.price!! * aProducts[anIndex].countInCart!!;
+            }
+        }
+        return sum.toString() + "Р";
+    }
+
     fun GetProductsCart(user: User): MutableLiveData<CartInfo?> {
         myCartManagerAPI.GetProductsInCart(user, object : Callback<CartInfo> {
             override fun onResponse(call: Call<CartInfo?>?, response: Response<CartInfo?>) {
                 if (response.isSuccessful) {
                     val body: CartInfo = response.body() as CartInfo;
-                    myCarts.setValue(body);
+                    myCarts.value = body;
+                    if (body != null && myCarts.value != null)
+                    {
+                        for (anIndex in myCarts.value!!.products?.indices!!)
+                        {
+                            myCarts.value!!.products?.get(anIndex)?.countInCart?.let {
+                                myCarts.value!!.products?.get(anIndex)?.product?.SetCount(
+                                    it
+                                )
+                            }
+                        }
+                    }
                 } else {
                     myCarts.postValue(null);
                 }

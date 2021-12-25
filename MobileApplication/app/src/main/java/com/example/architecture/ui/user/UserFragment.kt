@@ -8,7 +8,11 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.architecture.R
+import com.example.architecture.components.UserItem
 import com.example.architecture.databinding.FragmentUserBinding
+import com.example.architecture.interfaces.UserManagerAPI
+import com.example.architecture.repository.UserRepository
 
 // Class describing cart page
 class UserFragment : Fragment() {
@@ -35,6 +39,14 @@ class UserFragment : Fragment() {
         myUserViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it;
         })
+
+        val aRepos = UserRepository.GetInstance(UserManagerAPI.GetInstance()!!)!!;
+        if(aRepos.GetIsValid())
+        {
+            val user = aRepos.GetUserO();
+            val userItem = root.findViewById<UserItem>(R.id.userItems);
+            userItem.SetData(user);
+        }
         return root
     }
 

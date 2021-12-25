@@ -51,6 +51,17 @@ class Product(
     @Expose
     var linkToImage: String? = null
 
+
+    fun SetCount(countInCart: Int)
+    {
+        myCountInCart = countInCart;
+    }
+
+    fun GetAvalCount(): Int
+    {
+        return avaliableAmount!! - myCountInCart;
+    }
+
     init {
         id = theId;
         name = theName;
@@ -59,4 +70,5 @@ class Product(
         avaliableAmount = theCount;
         linkToImage = theImage;
     }
+    private var myCountInCart: Int = 0;
 }

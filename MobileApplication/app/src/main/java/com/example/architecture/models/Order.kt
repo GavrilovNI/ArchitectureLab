@@ -22,14 +22,14 @@ class Order {
 
     @SerializedName("boughtProducts")
     @Expose
-    var deliveryAddres: String? = null;
+    var deliveryAddress: String? = null;
 
 }
 
 class BoughtProduct(
     theId: Int,
     theCount: Int,
-    thePrice: Float,
+    thePrice: Int,
     theStatus: Int) {
 
     @SerializedName("productId")

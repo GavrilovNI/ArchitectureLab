@@ -2,6 +2,7 @@ package com.example.architecture.interfaces
 
 import com.example.architecture.models.CartInfo
 import com.example.architecture.models.User
+import okhttp3.ResponseBody
 import retrofit2.Callback
 
 // API for user repository
@@ -22,7 +23,7 @@ class UserManagerAPI : IBaseManagerAPI() {
         service?.GetUser()?.enqueue(callback)
     }
 
-    fun Authorization(user: User, callback: Callback<User?>) {
+    fun Authorization(user: User, callback: Callback<Boolean?>) {
         service?.Authorization(user)?.enqueue(callback)
     }
 }
